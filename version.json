@@ -1,0 +1,15 @@
+{
+  "version": "1.0.1",
+  "versionCode": 2,
+  "downloadUrl": "https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.1/lisao-recite-app-v1.0.1-arm64.apk",
+  "mirrorDownloadUrl": "https://ghfast.top/https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.1/lisao-recite-app-v1.0.1-arm64.apk",
+  "sizeBytes": 26412782,
+  "sha256": "C518994A6FF68763ADDA18976637051E08E3B1D214C4645C2957619F3CF157CB",
+  "notes": [
+    "原文每个汉字都可点击，查看拼音、多音读法、古汉语义项、本句词义和整句译意。",
+    "新增全篇导读，15 章全部补充历史背景、故事线、深度解读和读后问题。",
+    "最近复习改用中文章节名，并显示具体原句、评分、掌握程度和下次复习时间。",
+    "修复每日新学目标、小屏学习统计和今日已背内容展示。",
+    "新增应用内检查更新、下载安装包和调用 Android 系统安装器。"
+  ]
+}

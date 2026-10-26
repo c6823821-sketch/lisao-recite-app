@@ -2,6 +2,8 @@ import * as Haptics from 'expo-haptics';
 import React, { useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CharacterInspector } from '../components/CharacterInspector';
+import { ClassicalText } from '../components/ClassicalText';
 import { LisaoUnit } from '../data/lisaoCurriculum';
 import { sectionForUnit } from '../services/plan';
 import { AppProgress, getCard, masteryLabel, ReviewRating } from '../services/progress';
@@ -61,6 +63,7 @@ export function ReciteScreen({
   const [retryCount, setRetryCount] = useState(0);
   const [lastFeedback, setLastFeedback] = useState('');
   const [error, setError] = useState('');
+  const [inspectorCharacter, setInspectorCharacter] = useState<string | null>(null);
   const retryAddedRef = useRef(new Set<string>());
   const completedRef = useRef(0);
 
@@ -141,20 +144,34 @@ export function ReciteScreen({
         <Text style={styles.sectionLabel}>{currentSection?.title}</Text>
         <Text style={styles.sectionSubtitle}>{currentSection?.subtitle}</Text>
 
-        <Pressable onPress={() => setRevealed((value) => !value)} style={styles.card}>
+        <View style={styles.card}>
           <View style={styles.cardMetaRow}>
             <Text style={styles.cardMeta}>{masteryLabel(currentCard!)}</Text>
             <Text style={styles.cardMeta}>{currentUnit.lines.length} 句</Text>
           </View>
-          <View style={styles.linesStage}>
-            {currentUnit.lines.filter((line) => line !== '」').map((line, index) => (
-              <Text key={`${currentUnit.id}-${index}`} style={revealed ? styles.fullLine : styles.maskedLine}>
-                {revealed ? line : masks(line)}
-              </Text>
-            ))}
-          </View>
-          <Text style={styles.tapHint}>{revealed ? '轻触收起原文' : '先凭记忆背出，再轻触核对'}</Text>
-        </Pressable>
+          {revealed ? (
+            <ClassicalText
+              lines={currentUnit.lines}
+              selectedCharacter={inspectorCharacter ?? undefined}
+              onCharacterPress={setInspectorCharacter}
+              containerStyle={styles.linesStage}
+              lineStyle={styles.fullLine}
+            />
+          ) : (
+            <Pressable onPress={() => setRevealed(true)} style={styles.linesStage}>
+              {currentUnit.lines.filter((line) => line !== '」').map((line, index) => (
+                <Text key={`${currentUnit.id}-${index}`} style={styles.maskedLine}>
+                  {masks(line)}
+                </Text>
+              ))}
+            </Pressable>
+          )}
+          <Pressable onPress={() => setRevealed((value) => !value)}>
+            <Text style={styles.tapHint}>
+              {revealed ? '点任一汉字看读音和释义 · 点这里收起原文' : '先凭记忆背出，再轻触核对'}
+            </Text>
+          </Pressable>
+        </View>
 
         <View style={styles.toolRow}>
           <Pressable
@@ -164,10 +181,10 @@ export function ReciteScreen({
             <Text style={styles.toolButtonText}>{translationVisible ? '收起译意' : '看译意'}</Text>
           </Pressable>
           <Pressable
-            onPress={() => setRevealed(true)}
+            onPress={() => setRevealed((value) => !value)}
             style={({ pressed }) => [styles.toolButton, pressed && styles.pressed]}
           >
-            <Text style={styles.toolButtonText}>看全文</Text>
+            <Text style={styles.toolButtonText}>{revealed ? '收起原文' : '看全文'}</Text>
           </Pressable>
           {retryCount > 0 ? <Text style={styles.retryLabel}>回炉 {retryCount}</Text> : null}
         </View>
@@ -208,6 +225,12 @@ export function ReciteScreen({
           ))}
         </View>
       </View>
+      <CharacterInspector
+        character={inspectorCharacter}
+        unit={currentUnit}
+        sectionTitle={currentSection ? `第 ${currentSection.number} 章 · ${currentSection.title}` : undefined}
+        onClose={() => setInspectorCharacter(null)}
+      />
     </View>
   );
 }

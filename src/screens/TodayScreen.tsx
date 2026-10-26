@@ -3,16 +3,17 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LISAO_SECTIONS } from '../data/lisaoCurriculum';
 import { buildTodayPlan, HomeAction, sectionForUnit } from '../services/plan';
-import { AppProgress, getCard, summarizeProgress } from '../services/progress';
+import { AppProgress, getCard, getLearnedUnits, summarizeProgress } from '../services/progress';
 import { colors, fonts, radius, shadow, spacing } from '../theme';
 
 interface Props {
   progress: AppProgress;
   onStart: (action: HomeAction) => void;
   onOpenSection: (sectionId: string) => void;
+  onOpenUnit: (sectionId: string, unitIndex: number) => void;
 }
 
-export function TodayScreen({ progress, onStart, onOpenSection }: Props) {
+export function TodayScreen({ progress, onStart, onOpenSection, onOpenUnit }: Props) {
   const insets = useSafeAreaInsets();
   const plan = useMemo(() => buildTodayPlan(progress), [progress]);
   const summary = useMemo(() => summarizeProgress(progress), [progress]);
@@ -23,6 +24,12 @@ export function TodayScreen({ progress, onStart, onOpenSection }: Props) {
     ?? LISAO_SECTIONS[0];
   const learnedRatio = summary.total ? summary.reviewedCount / summary.total : 0;
   const masteredRatio = summary.total ? summary.masteredCount / summary.total : 0;
+  const todayLearnedItems = useMemo(() => {
+    const today = new Date().toDateString();
+    return getLearnedUnits(progress)
+      .filter((item) => new Date(item.lastReviewedAt).toDateString() === today);
+  }, [progress]);
+  const todayLearned = todayLearnedItems.slice(0, 4);
   const todayText = new Date().toLocaleDateString('zh-CN', {
     month: 'long',
     day: 'numeric',
@@ -71,7 +78,7 @@ export function TodayScreen({ progress, onStart, onOpenSection }: Props) {
               <Text style={styles.planLabel}>今日安排</Text>
               <Text style={styles.planTitle}>
                 {plan.due.length > 0 ? `复习 ${plan.due.length} 句对 · ` : ''}
-                新学 {plan.fresh.length} 句对
+                还可新学 {plan.remainingNewCount} 句对
               </Text>
             </View>
             <View style={styles.planBadge}>
@@ -110,6 +117,30 @@ export function TodayScreen({ progress, onStart, onOpenSection }: Props) {
             </Pressable>
           </View>
         </View>
+
+        {todayLearned.length ? (
+          <>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>今天背过</Text>
+              <Text style={styles.sectionMeta}>{todayLearnedItems.length} 句对</Text>
+            </View>
+            <View style={styles.todayCard}>
+              {todayLearned.map((item, index) => (
+                <Pressable
+                  key={item.unit.id}
+                  onPress={() => onOpenUnit(item.sectionId, item.sectionUnitIndex)}
+                  style={({ pressed }) => [styles.todayRow, index === todayLearned.length - 1 && styles.todayRowLast, pressed && styles.pressed]}
+                >
+                  <View style={styles.todayCopy}>
+                    <Text style={styles.todaySection}>{item.sectionTitle}</Text>
+                    <Text style={styles.todayText} numberOfLines={2}>{item.unit.lines.join('')}</Text>
+                  </View>
+                  <Text style={styles.todayAction}>再背 ›</Text>
+                </Pressable>
+              ))}
+            </View>
+          </>
+        ) : null}
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>近期到期</Text>
@@ -197,6 +228,13 @@ const styles = StyleSheet.create({
   secondaryButtonText: { color: colors.vermilion, fontFamily: fonts.body, fontSize: 14, fontWeight: '700' },
   disabled: { opacity: 0.4 },
   pressed: { opacity: 0.68 },
+  todayCard: { borderRadius: 16, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 15 },
+  todayRow: { minHeight: 67, flexDirection: 'row', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
+  todayRowLast: { borderBottomWidth: 0 },
+  todayCopy: { flex: 1, minWidth: 0, paddingRight: 10 },
+  todaySection: { color: colors.jade, fontFamily: fonts.sans, fontSize: 9 },
+  todayText: { color: colors.ink, fontFamily: fonts.title, fontSize: 15, lineHeight: 23, marginTop: 4 },
+  todayAction: { color: colors.vermilion, fontFamily: fonts.body, fontSize: 11, fontWeight: '700' },
   sectionHeader: { marginTop: 26, marginBottom: 12, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   sectionTitle: { color: colors.ink, fontFamily: fonts.title, fontSize: 20, fontWeight: '800' },
   sectionMeta: { color: colors.muted, fontFamily: fonts.sans, fontSize: 11 },

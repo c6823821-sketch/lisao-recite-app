@@ -1,7 +1,8 @@
 {
   "name": "lisao-recite-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
+  "packageManager": "pnpm@11.22.0",
   "main": "index.ts",
   "description": "离骚背诵与精读",
   "scripts": {
@@ -9,14 +10,18 @@
     "android": "expo run:android",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
+    "build:dictionary": "tsx scripts/build-lisao-dictionary.ts",
     "test:content": "tsx scripts/content-audit.ts",
-    "check": "npm run typecheck && npm run test:content",
+    "check": "pnpm run typecheck && pnpm run test:content",
     "export:web": "expo export --platform web"
   },
   "dependencies": {
     "expo": "~57.0.26",
+    "expo-application": "~57.0.3",
+    "expo-constants": "~57.0.20",
     "expo-file-system": "~57.0.7",
     "expo-haptics": "~57.0.3",
+    "expo-intent-launcher": "~57.0.1",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -26,6 +31,7 @@
     "ts-fsrs": "^5.4.2"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "@types/react": "~19.2.2",
     "tsx": "^4.23.15",
     "typescript": "~6.0.3"

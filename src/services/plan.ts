@@ -7,6 +7,9 @@ export interface TodayPlan {
   due: LisaoUnit[];
   fresh: LisaoUnit[];
   queue: LisaoUnit[];
+  dailyTarget: number;
+  newTodayCount: number;
+  remainingNewCount: number;
 }
 
 export interface SectionProgress {
@@ -27,12 +30,29 @@ export function buildTodayPlan(progress: AppProgress, now = new Date()): TodayPl
     else if (card.due.getTime() <= now.getTime()) due.push(unit);
   }
   due.sort((left, right) => getCard(progress, left.id).due.getTime() - getCard(progress, right.id).due.getTime());
-  const targetFresh = fresh.slice(0, Math.max(0, progress.dailyTarget));
+  const newTodayCount = countUnitsFirstReviewedOn(progress, now);
+  const remainingNewCount = Math.max(0, progress.dailyTarget - newTodayCount);
+  const targetFresh = fresh.slice(0, remainingNewCount);
   return {
     due,
     fresh: targetFresh,
     queue: [...due, ...targetFresh],
+    dailyTarget: progress.dailyTarget,
+    newTodayCount,
+    remainingNewCount,
   };
+}
+
+function countUnitsFirstReviewedOn(progress: AppProgress, now: Date): number {
+  const firstReviewedAt = new Map<string, number>();
+  for (const event of progress.history) {
+    const reviewedAt = Date.parse(event.reviewedAt);
+    if (!Number.isFinite(reviewedAt)) continue;
+    const previous = firstReviewedAt.get(event.unitId);
+    if (previous == null || reviewedAt < previous) firstReviewedAt.set(event.unitId, reviewedAt);
+  }
+  const today = now.toDateString();
+  return [...firstReviewedAt.values()].filter((value) => new Date(value).toDateString() === today).length;
 }
 
 export function buildQueueForAction(

@@ -9,10 +9,11 @@ import { colors, fonts, radius, shadow, spacing } from '../theme';
 interface Props {
   progress: AppProgress;
   onOpenSection: (sectionId: string) => void;
+  onOpenGuide: () => void;
   onStartAll: () => void;
 }
 
-export function SectionsScreen({ progress, onOpenSection, onStartAll }: Props) {
+export function SectionsScreen({ progress, onOpenSection, onOpenGuide, onStartAll }: Props) {
   const insets = useSafeAreaInsets();
   const progressBySection = useMemo(() => new Map(
     sectionProgress(progress).map((item) => [item.sectionId, item]),
@@ -36,6 +37,15 @@ export function SectionsScreen({ progress, onOpenSection, onStartAll }: Props) {
           <Text style={styles.summaryDivider}>·</Text>
           <Text style={styles.summaryText}>较稳固 {summary.masteredCount}</Text>
         </View>
+
+        <Pressable onPress={onOpenGuide} style={({ pressed }) => [styles.guideButton, pressed && styles.pressed]}>
+          <View style={styles.guideMark}><Text style={styles.guideMarkText}>导</Text></View>
+          <View style={styles.guideCopy}>
+            <Text style={styles.guideTitle}>先读《离骚》全篇导读</Text>
+            <Text style={styles.guideHint}>屈原与楚国、题名含义、全篇结构、香草美人、神话远游和异说争议。</Text>
+          </View>
+          <Text style={styles.guideArrow}>›</Text>
+        </Pressable>
 
         <Pressable onPress={onStartAll} style={({ pressed }) => [styles.allButton, pressed && styles.pressed]}>
           <View>
@@ -91,6 +101,13 @@ const styles = StyleSheet.create({
   summaryBar: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 20, padding: 13, borderRadius: 14, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line },
   summaryText: { color: colors.jade, fontFamily: fonts.sans, fontSize: 11 },
   summaryDivider: { color: colors.line, fontFamily: fonts.sans, fontSize: 11 },
+  guideButton: { minHeight: 94, flexDirection: 'row', alignItems: 'center', marginTop: 14, padding: 15, borderRadius: 17, backgroundColor: '#F7EBDD', borderWidth: 1, borderColor: '#E2CEAC' },
+  guideMark: { width: 44, height: 52, borderRadius: 12, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  guideMarkText: { color: colors.white, fontFamily: fonts.title, fontSize: 22, fontWeight: '800' },
+  guideCopy: { flex: 1, marginLeft: 12, paddingRight: 8 },
+  guideTitle: { color: colors.ink, fontFamily: fonts.title, fontSize: 17, fontWeight: '800' },
+  guideHint: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 12, lineHeight: 19, marginTop: 5 },
+  guideArrow: { color: colors.gold, fontFamily: fonts.sans, fontSize: 26 },
   allButton: { minHeight: 78, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 14, padding: 16, borderRadius: 16, backgroundColor: colors.vermilion, ...shadow },
   allTitle: { color: colors.white, fontFamily: fonts.title, fontSize: 18, fontWeight: '800' },
   allHint: { color: 'rgba(255,255,255,0.78)', fontFamily: fonts.body, fontSize: 11, lineHeight: 18, marginTop: 3 },

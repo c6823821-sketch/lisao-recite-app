@@ -18,6 +18,7 @@ import { ReciteScreen } from './src/screens/ReciteScreen';
 import { SectionDetailScreen } from './src/screens/SectionDetailScreen';
 import { SectionsScreen } from './src/screens/SectionsScreen';
 import { TodayScreen } from './src/screens/TodayScreen';
+import { GuideScreen } from './src/screens/GuideScreen';
 import { colors, fonts, radius, shadow, spacing } from './src/theme';
 
 interface Session {
@@ -39,6 +40,7 @@ function AppShell() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<MainTab>('today');
   const [sectionId, setSectionId] = useState<string | null>(null);
+  const [guideVisible, setGuideVisible] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [error, setError] = useState('');
   const [resetVisible, setResetVisible] = useState(false);
@@ -72,6 +74,10 @@ function AppShell() {
         setSectionId(null);
         return true;
       }
+      if (guideVisible) {
+        setGuideVisible(false);
+        return true;
+      }
       if (tab !== 'today') {
         setTab('today');
         return true;
@@ -79,7 +85,7 @@ function AppShell() {
       return false;
     });
     return () => subscription.remove();
-  }, [sectionId, session, tab]);
+  }, [guideVisible, sectionId, session, tab]);
 
   const startAction = useCallback((action: HomeAction) => {
     const units = buildQueueForAction(progressRef.current, action);
@@ -93,7 +99,14 @@ function AppShell() {
 
   const openSection = useCallback((id: string) => {
     setSession(null);
+    setGuideVisible(false);
     setSectionId(id);
+  }, []);
+
+  const openGuide = useCallback(() => {
+    setSession(null);
+    setSectionId(null);
+    setGuideVisible(true);
   }, []);
 
   const startSection = useCallback((id: string, unitIndex: number) => {
@@ -137,6 +150,7 @@ function AppShell() {
       setError('');
       setSession(null);
       setSectionId(null);
+      setGuideVisible(false);
       setTab('today');
     } catch (resetError) {
       setError(resetError instanceof Error ? resetError.message : '清除学习记录失败。');
@@ -159,11 +173,24 @@ function AppShell() {
     <View style={styles.root}>
       <StatusBar style="dark" />
       <View style={styles.content}>
-        {tab === 'today' ? <TodayScreen progress={progress} onStart={startAction} onOpenSection={openSection} /> : null}
-        {tab === 'sections' ? <SectionsScreen progress={progress} onOpenSection={openSection} onStartAll={startAll} /> : null}
-        {tab === 'mine' ? <MineScreen progress={progress} onSetDailyTarget={(target) => void setDailyTarget(target)} onReset={() => setResetVisible(true)} /> : null}
+        {tab === 'today' ? <TodayScreen progress={progress} onStart={startAction} onOpenSection={openSection} onOpenUnit={startSection} /> : null}
+        {tab === 'sections' ? <SectionsScreen progress={progress} onOpenSection={openSection} onOpenGuide={openGuide} onStartAll={startAll} /> : null}
+        {tab === 'mine' ? (
+          <MineScreen
+            progress={progress}
+            onSetDailyTarget={(target) => void setDailyTarget(target)}
+            onOpenUnit={startSection}
+            onReset={() => setResetVisible(true)}
+          />
+        ) : null}
       </View>
-      {!session && !activeSection ? <MainTabBar active={tab} onChange={setTab} /> : null}
+      {!session && !activeSection && !guideVisible ? <MainTabBar active={tab} onChange={setTab} /> : null}
+
+      {guideVisible && !session ? (
+        <View style={styles.overlay}>
+          <GuideScreen onBack={() => setGuideVisible(false)} />
+        </View>
+      ) : null}
 
       {activeSection && !session ? (
         <View style={styles.overlay}>

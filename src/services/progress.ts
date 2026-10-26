@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system/legacy';
 import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
 import { Platform } from 'react-native';
-import { LISAO_UNITS } from '../data/lisaoCurriculum';
+import { LISAO_SECTIONS, LISAO_UNITS, LisaoUnit } from '../data/lisaoCurriculum';
 
 export type ReviewRating = 'again' | 'hard' | 'good' | 'easy';
 
@@ -48,6 +48,17 @@ export interface ProgressSummary {
   learningCount: number;
   masteredCount: number;
   reviewedCount: number;
+}
+
+export interface LearnedUnit {
+  unit: LisaoUnit;
+  sectionId: string;
+  sectionNumber: number;
+  sectionTitle: string;
+  sectionUnitIndex: number;
+  lastRating: ReviewRating;
+  lastReviewedAt: string;
+  dueAt: string;
 }
 
 const STORAGE_KEY = 'lisao_recite_progress_v1';
@@ -235,4 +246,25 @@ export function masteryLabel(card: Card): string {
   if (card.stability >= 21 && card.reps >= 3) return '已掌握';
   if (card.stability >= 7) return '熟悉';
   return '学习中';
+}
+
+export function getLearnedUnits(progress: AppProgress): LearnedUnit[] {
+  const learned: LearnedUnit[] = [];
+  for (const section of LISAO_SECTIONS) {
+    section.units.forEach((unit, sectionUnitIndex) => {
+      const record = progress.cards[unit.id];
+      if (!record) return;
+      learned.push({
+        unit,
+        sectionId: section.id,
+        sectionNumber: section.number,
+        sectionTitle: section.title,
+        sectionUnitIndex,
+        lastRating: record.lastRating,
+        lastReviewedAt: record.lastReviewedAt,
+        dueAt: record.card.due,
+      });
+    });
+  }
+  return learned.sort((left, right) => Date.parse(right.lastReviewedAt) - Date.parse(left.lastReviewedAt));
 }

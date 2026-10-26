@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { getCharacterReadings, isHanCharacter } from '../src/data/characterDictionary';
+import { LISAO_INTRODUCTION, LISAO_SECTION_GUIDES } from '../src/data/lisaoGuide';
 import { LISAO_LINES } from '../src/data/lisao';
 import { LISAO_RECITATION_LINES, LISAO_SECTIONS, LISAO_UNITS } from '../src/data/lisaoCurriculum';
 
@@ -30,10 +32,36 @@ assert.equal(
   '末单元正文不一致',
 );
 
+const characters = [...new Set([...LISAO_LINES.join('')].filter(isHanCharacter))];
+assert.equal(characters.length, 808, '《离骚》全文不重复汉字数量异常');
+for (const character of characters) {
+  const readings = getCharacterReadings(character);
+  assert.ok(readings.length, `字词解释缺少“${character}”`);
+  assert.ok(
+    readings.every((reading) => reading.pronunciation && reading.meanings.length),
+    `“${character}”的读音或释义为空`,
+  );
+}
+
+assert.equal(Object.keys(LISAO_SECTION_GUIDES).length, LISAO_SECTIONS.length, '逐章深度导读数量不完整');
+assert.ok(LISAO_INTRODUCTION.opening.length >= 2, '全篇导读缺少足够说明');
+assert.ok(LISAO_INTRODUCTION.quickFacts.length >= 6, '全篇导读基础知识不足');
+assert.ok(LISAO_INTRODUCTION.structure.length >= 4, '全篇结构讲解不足');
+for (const section of LISAO_SECTIONS) {
+  const guide = LISAO_SECTION_GUIDES[section.id];
+  assert.ok(guide, `${section.title} 缺少深度导读`);
+  assert.ok(guide.historicalContext.length >= 2, `${section.title} 历史背景不足`);
+  assert.ok(guide.whatHappens.length >= 2, `${section.title} 故事梳理不足`);
+  assert.ok(guide.questions.length >= 2, `${section.title} 缺少读后问题`);
+}
+
 console.log(JSON.stringify({
   lines: LISAO_LINES.length,
   sections: LISAO_SECTIONS.length,
   units: LISAO_UNITS.length,
   first: LISAO_UNITS[0].text,
   last: LISAO_UNITS[LISAO_UNITS.length - 1].text,
+  characters: characters.length,
+  characterCoverage: '100%',
+  deepGuides: Object.keys(LISAO_SECTION_GUIDES).length,
 }, null, 2));

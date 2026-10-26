@@ -1,6 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CharacterInspector } from '../components/CharacterInspector';
+import { ClassicalText } from '../components/ClassicalText';
+import { LISAO_SECTION_GUIDES } from '../data/lisaoGuide';
 import { LisaoSection } from '../data/lisaoCurriculum';
 import { AppProgress, getCard, masteryLabel } from '../services/progress';
 import { colors, fonts, radius, shadow, spacing } from '../theme';
@@ -14,6 +17,8 @@ interface Props {
 
 export function SectionDetailScreen({ section, progress, onBack, onStartSection }: Props) {
   const insets = useSafeAreaInsets();
+  const [inspector, setInspector] = useState<{ character: string; unitIndex: number } | null>(null);
+  const deepGuide = LISAO_SECTION_GUIDES[section.id];
   const stats = useMemo(() => {
     let studied = 0;
     let mastered = 0;
@@ -24,6 +29,8 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
     }
     return { studied, mastered };
   }, [progress, section]);
+
+  const inspectorUnit = inspector ? section.units[inspector.unitIndex] : null;
 
   return (
     <View style={styles.container}>
@@ -44,10 +51,42 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
           <Text style={styles.overview}>{section.overview}</Text>
         </View>
 
+        {deepGuide ? (
+          <>
+            <View style={styles.backgroundCard}>
+              <Text style={styles.deepLabel}>时代与处境</Text>
+              {deepGuide.historicalContext.map((paragraph) => (
+                <Text key={paragraph} style={styles.deepText}>{paragraph}</Text>
+              ))}
+            </View>
+
+            <View style={styles.storyCard}>
+              <Text style={styles.storyLabel}>这一段发生了什么</Text>
+              {deepGuide.whatHappens.map((paragraph) => (
+                <Text key={paragraph} style={styles.storyText}>{paragraph}</Text>
+              ))}
+            </View>
+          </>
+        ) : null}
+
         <View style={styles.insightCard}>
           <Text style={styles.insightLabel}>怎么读懂</Text>
           <Text style={styles.insightText}>{section.insight}</Text>
         </View>
+
+        {deepGuide ? (
+          <View style={styles.deeperCard}>
+            <Text style={styles.deeperLabel}>再往深一层</Text>
+            <Text style={styles.deeperText}>{deepGuide.deeperReading}</Text>
+            <Text style={styles.questionTitle}>读后自问</Text>
+            {deepGuide.questions.map((question, index) => (
+              <View key={question} style={styles.questionRow}>
+                <Text style={styles.questionIndex}>{index + 1}</Text>
+                <Text style={styles.questionText}>{question}</Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
 
         <View style={styles.memoryCard}>
           <Text style={styles.memoryLabel}>背诵线索</Text>
@@ -73,29 +112,48 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
         </View>
 
         <Text style={styles.blockTitle}>逐句对精读</Text>
+        <View style={styles.tapTip}>
+          <Text style={styles.tapTipMark}>字</Text>
+          <Text style={styles.tapTipText}>原文里的每个汉字都可以点。点开后能看拼音、古汉语义项、本句词义和整句译意。</Text>
+        </View>
         {section.units.map((unit, index) => {
           const card = getCard(progress, unit.id);
           return (
-            <Pressable
+            <View
               key={unit.id}
-              onPress={() => onStartSection(section.id, index)}
-              style={({ pressed }) => [styles.unitCard, pressed && styles.pressed]}
+              style={styles.unitCard}
             >
               <View style={styles.unitHeader}>
                 <Text style={styles.unitNumber}>句对 {index + 1}</Text>
                 <Text style={styles.unitStatus}>{masteryLabel(card)}</Text>
               </View>
-              <View style={styles.originalBlock}>
-                {unit.lines.filter((line) => line !== '」').map((line, lineIndex) => (
-                  <Text key={`${unit.id}-${lineIndex}`} style={styles.originalLine}>{line}</Text>
-                ))}
-              </View>
+              <ClassicalText
+                lines={unit.lines}
+                selectedCharacter={inspector?.unitIndex === index ? inspector.character : undefined}
+                onCharacterPress={(character) => setInspector({ character, unitIndex: index })}
+                lineStyle={styles.originalLine}
+                containerStyle={styles.originalBlock}
+              />
               <Text style={styles.translation}>{unit.translation}</Text>
-              <Text style={styles.unitAction}>从这里背 ›</Text>
-            </Pressable>
+              <View style={styles.unitFooter}>
+                <Text style={styles.unitTapHint}>点字查读音和释义</Text>
+                <Pressable
+                  onPress={() => onStartSection(section.id, index)}
+                  style={({ pressed }) => [styles.unitActionButton, pressed && styles.pressed]}
+                >
+                  <Text style={styles.unitAction}>从这里背 ›</Text>
+                </Pressable>
+              </View>
+            </View>
           );
         })}
       </ScrollView>
+      <CharacterInspector
+        character={inspector?.character ?? null}
+        unit={inspectorUnit}
+        sectionTitle={`第 ${section.number} 章 · ${section.title}`}
+        onClose={() => setInspector(null)}
+      />
     </View>
   );
 }
@@ -113,9 +171,22 @@ const styles = StyleSheet.create({
   primaryCard: { marginTop: 22, padding: 18, borderRadius: radius.card, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, ...shadow },
   primaryLabel: { color: colors.jade, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.5 },
   overview: { color: colors.ink, fontFamily: fonts.body, fontSize: 16, lineHeight: 28, marginTop: 10 },
+  backgroundCard: { marginTop: 14, padding: 17, borderRadius: 17, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line },
+  deepLabel: { color: colors.vermilion, fontFamily: fonts.sans, fontSize: 11, fontWeight: '700', letterSpacing: 1 },
+  deepText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14, lineHeight: 25, marginTop: 9 },
+  storyCard: { marginTop: 12, padding: 17, borderRadius: 17, backgroundColor: colors.jadeSoft, borderWidth: 1, borderColor: '#D4E1D8' },
+  storyLabel: { color: colors.jade, fontFamily: fonts.sans, fontSize: 11, fontWeight: '700', letterSpacing: 1 },
+  storyText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14, lineHeight: 25, marginTop: 9 },
   insightCard: { marginTop: 12, padding: 16, borderRadius: 16, backgroundColor: '#F7EBDD', borderLeftWidth: 4, borderLeftColor: colors.gold },
   insightLabel: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, fontWeight: '700' },
   insightText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 15, lineHeight: 26, marginTop: 8 },
+  deeperCard: { marginTop: 12, padding: 16, borderRadius: 16, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line },
+  deeperLabel: { color: colors.vermilion, fontFamily: fonts.sans, fontSize: 11, fontWeight: '700' },
+  deeperText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14, lineHeight: 24, marginTop: 8 },
+  questionTitle: { color: colors.ink, fontFamily: fonts.title, fontSize: 16, fontWeight: '800', marginTop: 14 },
+  questionRow: { flexDirection: 'row', gap: 8, marginTop: 8 },
+  questionIndex: { width: 18, color: colors.vermilion, fontFamily: fonts.sans, fontSize: 10, paddingTop: 3 },
+  questionText: { flex: 1, color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, lineHeight: 22 },
   memoryCard: { marginTop: 12, padding: 16, borderRadius: 16, backgroundColor: colors.jadeSoft },
   memoryLabel: { color: colors.jade, fontFamily: fonts.sans, fontSize: 11, fontWeight: '700' },
   memoryText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14, lineHeight: 24, marginTop: 8 },
@@ -128,13 +199,19 @@ const styles = StyleSheet.create({
   noteRowLast: { borderBottomWidth: 0 },
   noteIndex: { width: 28, color: colors.vermilion, fontFamily: fonts.sans, fontSize: 10, paddingTop: 4 },
   noteText: { flex: 1, color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14, lineHeight: 24 },
+  tapTip: { flexDirection: 'row', alignItems: 'center', gap: 9, padding: 12, borderRadius: 13, backgroundColor: colors.jadeSoft, marginBottom: 12 },
+  tapTipMark: { width: 28, height: 28, borderRadius: 9, backgroundColor: colors.jade, color: colors.white, textAlign: 'center', fontFamily: fonts.title, fontSize: 16, fontWeight: '800', lineHeight: 28 },
+  tapTipText: { flex: 1, color: colors.inkSoft, fontFamily: fonts.body, fontSize: 12, lineHeight: 20 },
   unitCard: { marginBottom: 12, padding: 16, borderRadius: radius.card, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line },
   unitHeader: { flexDirection: 'row', justifyContent: 'space-between' },
   unitNumber: { color: colors.jade, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.2 },
   unitStatus: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10 },
   originalBlock: { marginTop: 12 },
-  originalLine: { color: colors.ink, fontFamily: fonts.title, fontSize: 19, lineHeight: 31, fontWeight: '600' },
+  originalLine: { color: colors.ink, fontFamily: fonts.title, fontSize: 19, lineHeight: 32, fontWeight: '600' },
   translation: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14, lineHeight: 24, marginTop: 10, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.line },
-  unitAction: { alignSelf: 'flex-end', color: colors.vermilion, fontFamily: fonts.body, fontSize: 12, fontWeight: '700', marginTop: 10 },
+  unitFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 },
+  unitTapHint: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9 },
+  unitActionButton: { minHeight: 34, paddingHorizontal: 12, borderRadius: 11, backgroundColor: colors.vermilionSoft, alignItems: 'center', justifyContent: 'center' },
+  unitAction: { color: colors.vermilion, fontFamily: fonts.body, fontSize: 12, fontWeight: '700' },
   pressed: { opacity: 0.68 },
 });
