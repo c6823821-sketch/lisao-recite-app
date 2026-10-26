@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "离骚背诵",
+    "slug": "lisao-recite-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "lisaorecite",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shici.lisao"
+    },
+    "android": {
+      "package": "com.shici.lisao",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#F3EDDF",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "backgroundColor": "#F3EDDF",
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "backgroundColor": "#F3EDDF",
+    "androidStatusBar": {
+      "backgroundColor": "#F3EDDF",
+      "barStyle": "dark-content"
+    }
+  }
+}
