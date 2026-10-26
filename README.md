@@ -8,6 +8,8 @@
 - 当前安装包为 Android 7.0+ ARM64 版本。
 - SHA256：`5A25C032B12C8452D5350276EDAA1FDE22F811D299B3D78C45DA32FA3C707194`
 
+![离骚背诵 APK 下载二维码](docs/qr.png)
+
 ## 页面
 
 | 今日 | 分章 |
