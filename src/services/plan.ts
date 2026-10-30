@@ -24,7 +24,6 @@ export interface SectionProgress {
 
 export interface UnitContext {
   previous?: LisaoUnit;
-  next?: LisaoUnit;
 }
 
 export function buildTodayPlan(progress: AppProgress, now = new Date()): TodayPlan {
@@ -133,7 +132,6 @@ export function contextForUnit(unit: LisaoUnit): UnitContext {
   if (index < 0) return {};
   return {
     previous: index > 0 ? LISAO_UNITS[index - 1] : undefined,
-    next: index < LISAO_UNITS.length - 1 ? LISAO_UNITS[index + 1] : undefined,
   };
 }
 

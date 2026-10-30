@@ -28,7 +28,7 @@ const RATINGS: Array<{
 }> = [
   { key: 'again', label: '不会', hint: '看讲解，隔一组回炉', background: colors.vermilionSoft, color: colors.vermilion },
   { key: 'hard', label: '要提示', hint: '看路标，隔两组再练', background: '#F5EAD8', color: colors.gold },
-  { key: 'good', label: '能连背', hint: '前后文一起连', background: colors.jadeSoft, color: colors.jade },
+  { key: 'good', label: '能连背', hint: '上文接得顺', background: colors.jadeSoft, color: colors.jade },
   { key: 'easy', label: '成段熟背', hint: '整段已经顺下来', background: '#E4ECE8', color: '#315448' },
 ];
 
@@ -83,10 +83,6 @@ export function ReciteScreen({
     () => unitContext.previous ? getUnitGlossary(unitContext.previous) : [],
     [unitContext.previous],
   );
-  const nextTerms = useMemo(
-    () => unitContext.next ? getUnitGlossary(unitContext.next) : [],
-    [unitContext.next],
-  );
   const inspectorUnit = inspector?.unit ?? currentUnit;
   const inspectorSection = sectionForUnit(inspectorUnit);
   const progressRatio = queue.length ? currentIndex / queue.length : 0;
@@ -122,8 +118,8 @@ export function ReciteScreen({
       }
       const continueStudy = rating === 'again' || rating === 'hard';
       setLastFeedback(continueStudy
-        ? '先看译意和背诵路标，再把本轮前后接起来'
-        : '已记录，下一轮继续从前后文接住整段');
+        ? '先看译意和背诵路标，再把上文接到本轮'
+        : '已记录，下一组会从这一句接着背');
       if (continueStudy) {
         setPendingAdvance(true);
         setRevealed(true);
@@ -176,7 +172,7 @@ export function ReciteScreen({
         <Text style={styles.finishTitle}>今日功夫已落下</Text>
         <Text style={styles.finishText}>
           今日安排了 {initialQueue.length} 个连续句对，本轮共作答 {completedRef.current} 次，回炉 {retryCount} 次。
-          评分和前后文进度已经保存，下一次复习会自动排进今日安排。
+          评分和背诵进度已经保存，下一次复习会自动排进今日安排。
         </Text>
         <Pressable onPress={onBack} style={styles.finishButton}><Text style={styles.finishButtonText}>回到今日</Text></Pressable>
       </View>
@@ -199,7 +195,7 @@ export function ReciteScreen({
       <ScrollView ref={scrollRef} contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <Text style={styles.sectionLabel}>{currentSection?.title}</Text>
         <Text style={styles.sectionSubtitle}>{currentSection?.subtitle}</Text>
-        <Text style={styles.contextRoute}>前后文夹住本轮　上文 → 本轮 → 下文</Text>
+        <Text style={styles.contextRoute}>只看上文，不提前展示后文</Text>
 
         {unitContext.previous ? (
           <View style={styles.contextCard}>
@@ -249,31 +245,15 @@ export function ReciteScreen({
                 ? (wordMode
                     ? '先点词首，再点词尾即可查整词 · 点这里收起'
                     : '虚线重点词可直接点，单字也可点 · 点这里收起')
-                : '先看上文和下文，背出本轮；轻触核对'}
+                : '先看上文，独立背出本轮；核对后再进入下一组'}
             </Text>
           </Pressable>
         </View>
 
-        {unitContext.next ? (
-          <View style={styles.nextCard}>
-            <View style={styles.nextHeading}>
-              <Text style={styles.nextLabel}>下文 · 背完本轮接这里</Text>
-              <Text style={styles.nextMeta}>{revealed ? '前后连读' : '下文提示'}</Text>
-            </View>
-            <ClassicalText
-              lines={unitContext.next.lines}
-              terms={nextTerms}
-              selectedText={inspector?.unit.id === unitContext.next.id ? inspector.selection : undefined}
-              onTextPress={(selection) => setInspector({ selection, unit: unitContext.next! })}
-              wordMode={wordMode}
-              lineStyle={styles.nextLine}
-            />
-          </View>
-        ) : (
-          <View style={styles.contextStart}>
-            <Text style={styles.contextLabel}>本章收束 · 背到这里停一拍</Text>
-          </View>
-        )}
+        <View style={styles.futureLocked}>
+          <Text style={styles.futureLockedTitle}>后文暂不显示</Text>
+          <Text style={styles.futureLockedText}>先独立背完本轮，核对后再进入下一组。</Text>
+        </View>
 
         <View style={styles.toolRow}>
           <Pressable
@@ -335,8 +315,8 @@ export function ReciteScreen({
           {pendingAdvance
             ? '先弄懂这一组：看完译意和背诵路标，再继续'
             : revealed
-              ? '上文 → 本轮 → 下文，刚才连得怎么样？'
-              : '先轻触上方核对，再按整段连背表现评分'}
+              ? '上文接住本轮，刚才背得怎么样？'
+              : '先独立背完本轮，再轻触上方核对'}
         </Text>
         {pendingAdvance ? (
           <Pressable
@@ -407,11 +387,9 @@ const styles = StyleSheet.create({
   maskedLine: { color: colors.muted, fontFamily: fonts.title, fontSize: 25, letterSpacing: 7, lineHeight: 48, textAlign: 'center' },
   fullLine: { color: colors.ink, fontFamily: fonts.title, fontSize: 25, lineHeight: 45, fontWeight: '700', textAlign: 'center' },
   tapHint: { color: colors.muted, fontFamily: fonts.sans, fontSize: 11, textAlign: 'center' },
-  nextCard: { marginTop: 12, padding: 16, borderRadius: 16, backgroundColor: '#F7EBDD', borderWidth: 1, borderColor: '#E8D7C0' },
-  nextHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  nextLabel: { color: colors.gold, fontFamily: fonts.sans, fontSize: 10, fontWeight: '700', letterSpacing: 1 },
-  nextMeta: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9 },
-  nextLine: { color: colors.ink, fontFamily: fonts.title, fontSize: 19, lineHeight: 34, marginTop: 8 },
+  futureLocked: { marginTop: 12, paddingHorizontal: 16, paddingVertical: 13, borderRadius: 15, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, alignItems: 'center' },
+  futureLockedTitle: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, fontWeight: '700', letterSpacing: 1 },
+  futureLockedText: { color: colors.muted, fontFamily: fonts.body, fontSize: 11, lineHeight: 19, textAlign: 'center', marginTop: 5 },
   toolRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 9, marginTop: 12 },
   toolButton: { minHeight: 38, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.card, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
   toolButtonText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 12, fontWeight: '700' },

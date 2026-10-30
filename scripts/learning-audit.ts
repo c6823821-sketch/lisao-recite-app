@@ -141,9 +141,7 @@ for (const [index, unit] of LISAO_UNITS.entries()) {
   if (index > 0) {
     assert.equal(context.previous?.endLine, unit.startLine - 1, `${unit.id} 的上文没有接上`);
   }
-  if (index < LISAO_UNITS.length - 1) {
-    assert.equal(context.next?.startLine, unit.endLine + 1, `${unit.id} 的下文没有接上`);
-  }
+  assert.equal('next' in context, false, `${unit.id} 的背诵上下文不能提前暴露后文`);
 }
 
 const crossSectionUnit = LISAO_UNITS.find((unit) => unit.startLine === LISAO_SECTIONS[0].units.at(-1)!.endLine + 1);
@@ -151,7 +149,7 @@ assert.ok(crossSectionUnit, '找不到章节边界');
 assert.notEqual(
   contextForUnit(crossSectionUnit!).previous?.sectionId,
   crossSectionUnit!.sectionId,
-  '章节边界不能截断上下文',
+  '章节边界不能截断上文',
 );
 
 const retryQueue = insertRetry(LISAO_UNITS.slice(0, 5), 0, LISAO_UNITS[0], 1);
@@ -188,7 +186,7 @@ for (const unit of LISAO_UNITS) {
 console.log(JSON.stringify({
   dailyFresh: today.fresh.length,
   queueOrder: '原典顺序',
-  contextWindows: `${LISAO_UNITS.length} 个句对（跨章节连续）`,
+  contextWindows: `${LISAO_UNITS.length} 个句对（只露上文，不剧透后文）`,
   sectionGlossaryCoverage: `${LISAO_SECTIONS.length}/${LISAO_SECTIONS.length}`,
 }, null, 2));
 
