@@ -1,5 +1,6 @@
 import { LISAO_SECTIONS, LISAO_UNITS, LisaoUnit } from '../data/lisaoCurriculum';
-import { AppProgress, getCard } from './progress';
+import { getCard } from './cards';
+import type { AppProgress } from './progress';
 
 export type HomeAction = 'daily' | 'review' | 'all';
 
@@ -21,6 +22,11 @@ export interface SectionProgress {
   ratio: number;
 }
 
+export interface UnitContext {
+  previous?: LisaoUnit;
+  next?: LisaoUnit;
+}
+
 export function buildTodayPlan(progress: AppProgress, now = new Date()): TodayPlan {
   const due: LisaoUnit[] = [];
   const fresh: LisaoUnit[] = [];
@@ -29,10 +35,10 @@ export function buildTodayPlan(progress: AppProgress, now = new Date()): TodayPl
     if (card.reps === 0) fresh.push(unit);
     else if (card.due.getTime() <= now.getTime()) due.push(unit);
   }
-  due.sort((left, right) => getCard(progress, left.id).due.getTime() - getCard(progress, right.id).due.getTime());
+  due.sort(compareTextOrder);
   const newTodayCount = countUnitsFirstReviewedOn(progress, now);
   const remainingNewCount = Math.max(0, progress.dailyTarget - newTodayCount);
-  const targetFresh = fresh.slice(0, remainingNewCount);
+  const targetFresh = pickContinuousFresh(progress, fresh, remainingNewCount);
   return {
     due,
     fresh: targetFresh,
@@ -41,6 +47,31 @@ export function buildTodayPlan(progress: AppProgress, now = new Date()): TodayPl
     newTodayCount,
     remainingNewCount,
   };
+}
+
+function pickContinuousFresh(
+  progress: AppProgress,
+  fresh: LisaoUnit[],
+  limit: number,
+): LisaoUnit[] {
+  if (!limit || !fresh.length) return [];
+  const freshIds = new Set(fresh.map((unit) => unit.id));
+  let anchorIndex = -1;
+  for (const [index, unit] of LISAO_UNITS.entries()) {
+    if (progress.cards[unit.id]) anchorIndex = index;
+  }
+
+  const picked: LisaoUnit[] = [];
+  for (let offset = 1; offset <= LISAO_UNITS.length && picked.length < limit; offset += 1) {
+    const index = (anchorIndex + offset + LISAO_UNITS.length) % LISAO_UNITS.length;
+    const unit = LISAO_UNITS[index];
+    if (!freshIds.has(unit.id)) {
+      if (picked.length) break;
+      continue;
+    }
+    picked.push(unit);
+  }
+  return picked;
 }
 
 function countUnitsFirstReviewedOn(progress: AppProgress, now: Date): number {
@@ -95,4 +126,32 @@ export function sectionProgress(progress: AppProgress, now = new Date()): Sectio
 
 export function sectionForUnit(unit: LisaoUnit | undefined) {
   return unit ? LISAO_SECTIONS.find((section) => section.id === unit.sectionId) : undefined;
+}
+
+export function contextForUnit(unit: LisaoUnit): UnitContext {
+  const index = LISAO_UNITS.findIndex((item) => item.id === unit.id);
+  if (index < 0) return {};
+  return {
+    previous: index > 0 ? LISAO_UNITS[index - 1] : undefined,
+    next: index < LISAO_UNITS.length - 1 ? LISAO_UNITS[index + 1] : undefined,
+  };
+}
+
+export function insertRetry(
+  queue: LisaoUnit[],
+  currentIndex: number,
+  unit: LisaoUnit,
+  interveningItems = 1,
+): LisaoUnit[] {
+  const next = [...queue];
+  const insertAt = Math.min(
+    next.length,
+    currentIndex + 1 + Math.max(1, interveningItems),
+  );
+  next.splice(insertAt, 0, unit);
+  return next;
+}
+
+function compareTextOrder(left: LisaoUnit, right: LisaoUnit): number {
+  return left.startLine - right.startLine;
 }

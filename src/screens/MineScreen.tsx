@@ -244,9 +244,9 @@ function formatDueAt(value: string): string {
 
 function ratingText(rating: string): string {
   if (rating === 'again') return '不会';
-  if (rating === 'hard') return '模糊';
-  if (rating === 'good') return '背会';
-  return '熟练';
+  if (rating === 'hard') return '要提示';
+  if (rating === 'good') return '能连背';
+  return '成段熟背';
 }
 
 const styles = StyleSheet.create({

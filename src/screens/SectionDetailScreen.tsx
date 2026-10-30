@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CharacterInspector } from '../components/CharacterInspector';
 import { ClassicalText } from '../components/ClassicalText';
+import { getUnitGlossary } from '../data/characterDictionary';
 import { LISAO_SECTION_GUIDES } from '../data/lisaoGuide';
 import { LisaoSection } from '../data/lisaoCurriculum';
 import { AppProgress, getCard, masteryLabel } from '../services/progress';
@@ -17,7 +18,8 @@ interface Props {
 
 export function SectionDetailScreen({ section, progress, onBack, onStartSection }: Props) {
   const insets = useSafeAreaInsets();
-  const [inspector, setInspector] = useState<{ character: string; unitIndex: number } | null>(null);
+  const [inspector, setInspector] = useState<{ selection: string; unitIndex: number } | null>(null);
+  const [wordMode, setWordMode] = useState(false);
   const deepGuide = LISAO_SECTION_GUIDES[section.id];
   const stats = useMemo(() => {
     let studied = 0;
@@ -39,7 +41,16 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
           <Text style={styles.headerAction}>‹ 返回</Text>
         </Pressable>
         <Text style={styles.headerTitle}>第 {section.number} 章</Text>
-        <View style={styles.headerSide} />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ selected: wordMode }}
+          onPress={() => setWordMode((value) => !value)}
+          style={[styles.headerSide, styles.headerMode]}
+        >
+          <Text style={[styles.headerModeText, wordMode && styles.headerModeTextActive]}>
+            {wordMode ? '选词中' : '选整词'}
+          </Text>
+        </Pressable>
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={styles.eyebrow}>{section.subtitle}</Text>
@@ -114,7 +125,11 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
         <Text style={styles.blockTitle}>逐句对精读</Text>
         <View style={styles.tapTip}>
           <Text style={styles.tapTipMark}>字</Text>
-          <Text style={styles.tapTipText}>原文里的每个汉字都可以点。点开后能看拼音、古汉语义项、本句词义和整句译意。</Text>
+          <Text style={styles.tapTipText}>
+            {wordMode
+              ? '先点词首，再点同一句的词尾，就能查任意多字词；连续点两次同一个字只查单字。'
+              : '虚线重点词可直接点；打开右上角“选整词”后，可任选词首和词尾。'}
+          </Text>
         </View>
         {section.units.map((unit, index) => {
           const card = getCard(progress, unit.id);
@@ -129,8 +144,10 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
               </View>
               <ClassicalText
                 lines={unit.lines}
-                selectedCharacter={inspector?.unitIndex === index ? inspector.character : undefined}
-                onCharacterPress={(character) => setInspector({ character, unitIndex: index })}
+                terms={getUnitGlossary(unit)}
+                selectedText={inspector?.unitIndex === index ? inspector.selection : undefined}
+                onTextPress={(selection) => setInspector({ selection, unitIndex: index })}
+                wordMode={wordMode}
                 lineStyle={styles.originalLine}
                 containerStyle={styles.originalBlock}
               />
@@ -149,7 +166,7 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
         })}
       </ScrollView>
       <CharacterInspector
-        character={inspector?.character ?? null}
+        selection={inspector?.selection ?? null}
         unit={inspectorUnit}
         sectionTitle={`第 ${section.number} 章 · ${section.title}`}
         onClose={() => setInspector(null)}
@@ -164,6 +181,9 @@ const styles = StyleSheet.create({
   headerSide: { width: 72 },
   headerAction: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 15 },
   headerTitle: { flex: 1, textAlign: 'center', color: colors.ink, fontFamily: fonts.sans, fontSize: 13 },
+  headerMode: { alignItems: 'flex-end' },
+  headerModeText: { color: colors.muted, fontFamily: fonts.body, fontSize: 12 },
+  headerModeTextActive: { color: colors.vermilion, fontWeight: '800' },
   content: { padding: spacing.lg, paddingBottom: 80 },
   eyebrow: { color: colors.vermilion, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.5 },
   title: { color: colors.ink, fontFamily: fonts.title, fontSize: 31, fontWeight: '800', marginTop: 8 },

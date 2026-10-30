@@ -29,7 +29,7 @@ const RELEASE_PAGE = 'https://github.com/c6823821-sketch/lisao-recite-app/releas
 
 export const INSTALLED_VERSION = Application.nativeApplicationVersion
   ?? Constants.expoConfig?.version
-  ?? '1.0.1';
+  ?? '1.0.2';
 
 export const INSTALLED_BUILD = Number(Application.nativeBuildVersion ?? Constants.expoConfig?.android?.versionCode ?? 0);
 

@@ -1,22 +1,12 @@
 import * as FileSystem from 'expo-file-system/legacy';
-import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
+import { Card, Grade, Rating, fsrs } from 'ts-fsrs';
 import { Platform } from 'react-native';
 import { LISAO_SECTIONS, LISAO_UNITS, LisaoUnit } from '../data/lisaoCurriculum';
+import { deserializeCard, getCard, StoredCard } from './cards';
+
+export { getCard };
 
 export type ReviewRating = 'again' | 'hard' | 'good' | 'easy';
-
-interface StoredCard {
-  due: string;
-  stability: number;
-  difficulty: number;
-  elapsed_days: number;
-  scheduled_days: number;
-  learning_steps: number;
-  reps: number;
-  lapses: number;
-  state: number;
-  last_review?: string | null;
-}
 
 export interface UnitRecord {
   card: StoredCard;
@@ -95,21 +85,6 @@ function serializeCard(card: Card): StoredCard {
   };
 }
 
-function deserializeCard(stored: StoredCard): Card {
-  return {
-    due: new Date(stored.due),
-    stability: stored.stability,
-    difficulty: stored.difficulty,
-    elapsed_days: stored.elapsed_days,
-    scheduled_days: stored.scheduled_days,
-    learning_steps: stored.learning_steps,
-    reps: stored.reps,
-    lapses: stored.lapses,
-    state: stored.state as Card['state'],
-    last_review: stored.last_review ? new Date(stored.last_review) : undefined,
-  };
-}
-
 export function createInitialProgress(): AppProgress {
   const now = new Date().toISOString();
   return {
@@ -165,11 +140,6 @@ export async function saveProgress(progress: AppProgress): Promise<void> {
   const path = await storagePath();
   if (!path) throw new Error('本机存储目录不可用。');
   await FileSystem.writeAsStringAsync(path, raw);
-}
-
-export function getCard(progress: AppProgress, unitId: string): Card {
-  const record = progress.cards[unitId];
-  return record ? deserializeCard(record.card) : createEmptyCard();
 }
 
 export function rateUnit(

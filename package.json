@@ -1,6 +1,6 @@
 {
   "name": "lisao-recite-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "packageManager": "pnpm@11.22.0",
   "main": "index.ts",
@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "build:dictionary": "tsx scripts/build-lisao-dictionary.ts",
     "test:content": "tsx scripts/content-audit.ts",
-    "check": "pnpm run typecheck && pnpm run test:content",
+    "test:learning": "tsx scripts/learning-audit.ts",
+    "check": "pnpm run typecheck && pnpm run test:content && pnpm run test:learning",
     "export:web": "expo export --platform web"
   },
   "dependencies": {
