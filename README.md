@@ -6,8 +6,8 @@
 
 - [GitHub Releases](https://github.com/c6823821-sketch/lisao-recite-app/releases/latest)
 - 当前安装包为 Android 7.0+ ARM64 版本。
-- 大小：26,426,662 字节
-- SHA256：`2191B5E128FF82A82DE3B7B1160F42F64FC0D6F4EA78AAC66D6AA4F42989F693`
+- 大小：26,426,762 字节
+- SHA256：`2ED9EC8B76719CF28882B4C703CD72EB513886EC8E9F938A6A3210421F8D149A`
 
 ![离骚背诵 APK 下载二维码](docs/qr.png)
 
@@ -45,6 +45,7 @@
 - 支持遮字、全文核对、译意提示、隔组回炉和四档自评；不会或要提示时先看讲解再继续。
 - “我的”会列出今天背过什么、已学原句、掌握程度、上次评分和下次复习时间。
 - 应用内检查 GitHub 正式版、下载更新并调用 Android 系统安装器。
+- 更新检查和下载带国内镜像回退，GitHub 直链受限时仍可继续。
 - 所有学习记录只保存在本机。
 
 ## 原文

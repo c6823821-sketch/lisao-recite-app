@@ -22,7 +22,8 @@ export interface DownloadProgress {
 
 const VERSION_URLS = [
   'https://raw.githubusercontent.com/c6823821-sketch/lisao-recite-app/main/version.json',
-  'https://ghfast.top/https://raw.githubusercontent.com/c6823821-sketch/lisao-recite-app/main/version.json',
+  'https://ghproxy.net/https://raw.githubusercontent.com/c6823821-sketch/lisao-recite-app/main/version.json',
+  'https://gh-proxy.com/https://raw.githubusercontent.com/c6823821-sketch/lisao-recite-app/main/version.json',
 ];
 
 const RELEASE_PAGE = 'https://github.com/c6823821-sketch/lisao-recite-app/releases/latest';

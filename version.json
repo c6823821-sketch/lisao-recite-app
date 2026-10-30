@@ -2,9 +2,9 @@
   "version": "1.0.2",
   "versionCode": 3,
   "downloadUrl": "https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.2/lisao-recite-app-v1.0.2-arm64.apk",
-  "mirrorDownloadUrl": "https://ghfast.top/https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.2/lisao-recite-app-v1.0.2-arm64.apk",
-  "sizeBytes": 26426662,
-  "sha256": "2191B5E128FF82A82DE3B7B1160F42F64FC0D6F4EA78AAC66D6AA4F42989F693",
+  "mirrorDownloadUrl": "https://ghproxy.net/https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.2/lisao-recite-app-v1.0.2-arm64.apk",
+  "sizeBytes": 26426762,
+  "sha256": "2ED9EC8B76719CF28882B4C703CD72EB513886EC8E9F938A6A3210421F8D149A",
   "notes": [
     "背诵页加入“上文 → 本轮 → 下文”，章节交界也保持连续，不再只背孤立一句。",
     "原文支持任选连续词语：点词首再点词尾即可查整词，连续点同一字两次查单字。",
@@ -12,6 +12,7 @@
     "“不会”改为隔一组回炉，“要提示”隔两组再练，新学位置也不会再跳回全篇开头。",
     "评分“不会”或“要提示”后会先停留讲解页，自动显示译意和背诵路标。",
     "修复切换下一组时沿用上一页滚动位置、当前原文被截掉的问题，并优化页面响应。",
-    "补回应用内更新所需的安装包权限，修复检查到新版后无法继续调用系统安装器的问题。"
+    "补回应用内更新所需的安装包权限，修复检查到新版后无法继续调用系统安装器的问题。",
+    "更新检查和下载新增可用镜像，GitHub 受限时也能继续获取正式版。"
   ]
 }
