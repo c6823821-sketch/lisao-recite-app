@@ -1,5 +1,10 @@
 import assert from 'node:assert/strict';
-import { getTermContext, getUnitGlossary } from '../src/data/characterDictionary';
+import {
+  findCharacterContext,
+  getTermContext,
+  getUnitGlossary,
+  isHanCharacter,
+} from '../src/data/characterDictionary';
 import { LISAO_SECTIONS, LISAO_UNITS } from '../src/data/lisaoCurriculum';
 import { buildTodayPlan, contextForUnit, insertRetry, sectionForUnit } from '../src/services/plan';
 import type { AppProgress } from '../src/services/progress';
@@ -183,10 +188,40 @@ for (const unit of LISAO_UNITS) {
   }
 }
 
+let characterOccurrences = 0;
+for (const unit of LISAO_UNITS) {
+  for (const character of [...unit.text].filter(isHanCharacter)) {
+    characterOccurrences += 1;
+    const context = findCharacterContext(character, unit);
+    assert.ok(context.meaningInContext.trim(), `${unit.id} 的“${character}”缺少本句字义`);
+    assert.doesNotMatch(
+      context.meaningInContext,
+      /按“[。；，、]”理解|此字需要结合整句结构/,
+      `${unit.id} 的“${character}”没有有效本句字义`,
+    );
+  }
+}
+
+const contextCase = (unitId: string, character: string) => {
+  const unit = LISAO_UNITS.find((candidate) => candidate.id === unitId);
+  assert.ok(unit, `找不到字义检查单元 ${unitId}`);
+  return findCharacterContext(character, unit!).meaningInContext;
+};
+
+assert.match(contextCase('origin-1', '朕'), /我/);
+assert.match(contextCase('origin-6', '离'), /香草/);
+assert.match(contextCase('origin-7', '与'), /等待/);
+assert.match(contextCase('origin-7', '岁'), /岁月/);
+assert.match(contextCase('three-kings-3', '舜'), /虞舜/);
+assert.match(contextCase('three-kings-4', '桀'), /夏桀/);
+assert.match(contextCase('nine-deaths-6', '淫'), /淫邪|放纵/);
+assert.notEqual(contextCase('origin-6', '与'), contextCase('origin-7', '与'));
+
 console.log(JSON.stringify({
   dailyFresh: today.fresh.length,
   queueOrder: '原典顺序',
   contextWindows: `${LISAO_UNITS.length} 个句对（只露上文，不剧透后文）`,
+  characterContexts: `${characterOccurrences}/${characterOccurrences} 个单字均有本句取义`,
   sectionGlossaryCoverage: `${LISAO_SECTIONS.length}/${LISAO_SECTIONS.length}`,
 }, null, 2));
 

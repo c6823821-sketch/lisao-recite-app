@@ -11,6 +11,7 @@ interface SourceReading {
 interface OutputReading {
   pronunciation: string;
   meanings: string[];
+  examples?: string[];
 }
 
 const SOURCE_PATH = path.resolve(process.cwd(), '../shici-recite-app/src/data/dictionary/Word_Explain.json');
@@ -33,6 +34,11 @@ function cleanMeaning(value: string): string {
   return concise.endsWith('。') ? concise : `${concise}。`;
 }
 
+function extractExample(value: string): string | undefined {
+  const match = value.match(/《[^》]+》\s*[：:]\s*[“"]([^”"]+)[”"]/);
+  return match?.[1]?.replace(/\s+/g, ' ').trim();
+}
+
 const output: Record<string, OutputReading[]> = {};
 const missing: string[] = [];
 
@@ -40,13 +46,20 @@ for (const character of characters) {
   const readings = source[character];
   if (readings?.length) {
     output[character] = readings
-      .map((reading) => ({
-        pronunciation: reading.pronunciation?.trim() || '',
-        meanings: (reading.explains ?? [])
-          .map(cleanMeaning)
-          .filter(Boolean)
-          .slice(0, 2),
-      }))
+      .map((reading) => {
+        const senses = (reading.explains ?? [])
+          .map((value) => ({
+            meaning: cleanMeaning(value),
+            example: extractExample(value),
+          }))
+          .filter((sense) => sense.meaning)
+          .slice(0, 16);
+        return {
+          pronunciation: reading.pronunciation?.trim() || '',
+          meanings: senses.map((sense) => sense.meaning),
+          examples: senses.map((sense) => sense.example ?? ''),
+        };
+      })
       .filter((reading) => reading.pronunciation && reading.meanings.length)
       .slice(0, 4);
   }

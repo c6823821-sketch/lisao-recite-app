@@ -1,6 +1,7 @@
 # Attribution
 
 - Original classical text: `chinese-poetry/chinese-poetry` (MIT), as included in the existing shici-recite-app project.
+- Per-line word annotations are adapted from the *Chu Ci* chapter data in `KRISACHAN/ying-web` (MIT), then rechecked, merged, and mapped to this app's recitation units.
 - Character readings and concise classical-Chinese senses: derived from the offline `Word_Explain.json` dictionary already used by the user's existing poetry study software; supplemented and edited for characters and contexts that the source did not cover.
 - Local chapter organization, modern paraphrases, notes, learning prompts, and application code: created for this dedicated Lisao study app.
 

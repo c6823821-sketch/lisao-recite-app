@@ -1,0 +1,1710 @@
+[
+  {
+    "clauseStart": 0,
+    "clauseEnd": 0,
+    "surface": "高阳",
+    "meaning": "古帝颛顼(zhuān xū)的号。传说颛顼为高阳部落首领，因以为号",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 1,
+    "clauseEnd": 1,
+    "surface": "朕",
+    "meaning": "我。先秦之人无论上下尊卑，皆可称朕，至秦始皇始定为帝王的专用第一人称代词",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 2,
+    "clauseEnd": 2,
+    "surface": "摄提",
+    "meaning": "摄提格的简称，是古代“星岁纪年法”的一个名称。古人把天宫分为十二等份，分别名之曰子、丑、寅、卯、辰、巳、午、未、申、酉、戊、亥，是为十二宫，以太岁运行的所在来纪年。当太岁运行到寅宫那一年，称“摄提格”，也就是寅年",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 3,
+    "clauseEnd": 3,
+    "surface": "惟",
+    "meaning": "句首语词",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 3,
+    "clauseEnd": 3,
+    "surface": "庚寅",
+    "meaning": "古人以干支纪日，指正月里的一个寅日",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 4,
+    "clauseEnd": 4,
+    "surface": "皇",
+    "meaning": "指皇考",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 4,
+    "clauseEnd": 4,
+    "surface": "览",
+    "meaning": "观察，端相",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 4,
+    "clauseEnd": 4,
+    "surface": "揆",
+    "meaning": "估量、测度",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 4,
+    "clauseEnd": 4,
+    "surface": "初度",
+    "meaning": "初生之时",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 5,
+    "clauseEnd": 5,
+    "surface": "肇",
+    "meaning": "借为“兆”，古人取名字要通过卜兆",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 6,
+    "clauseEnd": 6,
+    "surface": "则",
+    "meaning": "法。屈原名平，字原，正则隐括“平”字义",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 7,
+    "clauseEnd": 7,
+    "surface": "字",
+    "meaning": "用作动词，即起个表字",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 8,
+    "clauseEnd": 8,
+    "surface": "内美",
+    "meaning": "指先天具有的高贵品质",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 9,
+    "clauseEnd": 9,
+    "surface": "修能",
+    "meaning": "杰出的才能，这里指后天修养的德能",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 10,
+    "clauseEnd": 10,
+    "surface": "辟",
+    "meaning": "同“僻”，幽僻的地方",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 11,
+    "clauseEnd": 11,
+    "surface": "纫",
+    "meaning": "联缀、编织",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 12,
+    "clauseEnd": 12,
+    "surface": "汩",
+    "meaning": "水流迅速的样子，比喻时间过得很快",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 13,
+    "clauseEnd": 13,
+    "surface": "与",
+    "meaning": "等待。“不吾与”，即“不与吾”，是否定句宾语提前句式",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 14,
+    "clauseEnd": 14,
+    "surface": "搴",
+    "meaning": "楚方言，拔取",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 15,
+    "clauseEnd": 15,
+    "surface": "宿莽",
+    "meaning": "楚方言，香草名，经冬不死。朝、夕是互文，言自修不息",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 16,
+    "clauseEnd": 16,
+    "surface": "日月",
+    "meaning": "指时光",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 17,
+    "clauseEnd": 17,
+    "surface": "代序",
+    "meaning": "代谢，即更替轮换的意思，古“谢”与“序”通",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 18,
+    "clauseEnd": 18,
+    "surface": "惟",
+    "meaning": "思",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 19,
+    "clauseEnd": 19,
+    "surface": "美人",
+    "meaning": "作者自喻",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 24,
+    "clauseEnd": 24,
+    "surface": "三后",
+    "meaning": "指楚国历史上的三位贤王熊绎、若敖、蚧冒",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 25,
+    "clauseEnd": 25,
+    "surface": "固",
+    "meaning": "本来、当然",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 26,
+    "clauseEnd": 26,
+    "surface": "杂",
+    "meaning": "犹言“纷”，众多的意思",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 24,
+    "clauseEnd": 49,
+    "surface": "茝",
+    "meaning": "同“芷”",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 28,
+    "clauseEnd": 28,
+    "surface": "耿介",
+    "meaning": "光明正大",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 29,
+    "clauseEnd": 29,
+    "surface": "道",
+    "meaning": "正途，指治国正道",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 30,
+    "clauseEnd": 30,
+    "surface": "猖披",
+    "meaning": "狂乱放荡",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 24,
+    "clauseEnd": 49,
+    "surface": "夫",
+    "meaning": "犹“彼”，代指桀纣",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 32,
+    "clauseEnd": 32,
+    "surface": "党人",
+    "meaning": "结党营私之人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 24,
+    "clauseEnd": 49,
+    "surface": "殚",
+    "meaning": "害怕",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 35,
+    "clauseEnd": 35,
+    "surface": "皇舆",
+    "meaning": "帝王的乘车，比喻国家",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 37,
+    "clauseEnd": 37,
+    "surface": "及",
+    "meaning": "追随的意思",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 38,
+    "clauseEnd": 38,
+    "surface": "荃",
+    "meaning": "香草名，亦名“荪”，喻指楚怀王",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 39,
+    "clauseEnd": 39,
+    "surface": "齌",
+    "meaning": "用急火煮食物",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 40,
+    "clauseEnd": 40,
+    "surface": "謇謇",
+    "meaning": "直言的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 41,
+    "clauseEnd": 41,
+    "surface": "忍",
+    "meaning": "忍受",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 41,
+    "clauseEnd": 41,
+    "surface": "舍",
+    "meaning": "止",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 42,
+    "clauseEnd": 42,
+    "surface": "九天",
+    "meaning": "古说天有九层，故说九天",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 43,
+    "clauseEnd": 43,
+    "surface": "灵修",
+    "meaning": "指楚怀王",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 46,
+    "clauseEnd": 46,
+    "surface": "成言",
+    "meaning": "成约，彼此说定的话",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 47,
+    "clauseEnd": 47,
+    "surface": "悔",
+    "meaning": "反悔",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 50,
+    "clauseEnd": 50,
+    "surface": "滋",
+    "meaning": "培植",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 50,
+    "clauseEnd": 50,
+    "surface": "畹",
+    "meaning": "古代地积单位，等于三十亩。一说十二亩，又说二十亩",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 51,
+    "clauseEnd": 51,
+    "surface": "百亩",
+    "meaning": "也是栽种得多的意思",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 52,
+    "clauseEnd": 52,
+    "surface": "畦",
+    "meaning": "《说文》：“田五十亩曰畦。”这里作种植用。留夷、揭车均为香草名",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 53,
+    "clauseEnd": 53,
+    "surface": "杂",
+    "meaning": "间种",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 55,
+    "clauseEnd": 55,
+    "surface": "刈",
+    "meaning": "割、收获",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 56,
+    "clauseEnd": 56,
+    "surface": "萎绝",
+    "meaning": "枯萎黄落，这里比喻所培养的人被摧残",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 57,
+    "clauseEnd": 57,
+    "surface": "芜秽",
+    "meaning": "本义指田地长满杂草，这里比喻所培养的人变节",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 57,
+    "clauseEnd": 57,
+    "surface": "众",
+    "meaning": "指群小，楚国的腐朽贵族",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 59,
+    "clauseEnd": 59,
+    "surface": "凭",
+    "meaning": "满，楚方言",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 60,
+    "clauseEnd": 60,
+    "surface": "恕",
+    "meaning": "宽恕",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 61,
+    "clauseEnd": 61,
+    "surface": "兴心",
+    "meaning": "生心",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 62,
+    "clauseEnd": 62,
+    "surface": "驰骛",
+    "meaning": "狂奔乱跑",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 64,
+    "clauseEnd": 64,
+    "surface": "冉冉",
+    "meaning": "渐渐",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 67,
+    "clauseEnd": 67,
+    "surface": "落英",
+    "meaning": "初开的花",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 68,
+    "clauseEnd": 68,
+    "surface": "苟",
+    "meaning": "假使、如果",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 71,
+    "clauseEnd": 71,
+    "surface": "贯",
+    "meaning": "贯穿",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 74,
+    "clauseEnd": 74,
+    "surface": "前修",
+    "meaning": "前代贤人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 76,
+    "clauseEnd": 76,
+    "surface": "周",
+    "meaning": "合",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 78,
+    "clauseEnd": 78,
+    "surface": "太息",
+    "meaning": "叹气",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 79,
+    "clauseEnd": 79,
+    "surface": "民",
+    "meaning": "人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 79,
+    "clauseEnd": 79,
+    "surface": "民生",
+    "meaning": "即人生，作者自谓",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 80,
+    "clauseEnd": 80,
+    "surface": "好",
+    "meaning": "喜欢。一说为衍文(见姜亮珍《屈原赋校注》引臧庸《拜经日记》)",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 81,
+    "clauseEnd": 81,
+    "surface": "谇",
+    "meaning": "谏",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 82,
+    "clauseEnd": 82,
+    "surface": "蕙纕",
+    "meaning": "以蕙草编缀的带子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 83,
+    "clauseEnd": 83,
+    "surface": "申",
+    "meaning": "加上",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 85,
+    "clauseEnd": 85,
+    "surface": "九死",
+    "meaning": "极言其后果严重",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 86,
+    "clauseEnd": 86,
+    "surface": "浩荡",
+    "meaning": "本义是大水横流的样子，比喻怀王骄横放纵",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 87,
+    "clauseEnd": 87,
+    "surface": "民心",
+    "meaning": "人心",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 88,
+    "clauseEnd": 88,
+    "surface": "蛾眉",
+    "meaning": "喻指美好的品德",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 89,
+    "clauseEnd": 89,
+    "surface": "谣诼",
+    "meaning": "楚方言，造谣诽谤",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 91,
+    "clauseEnd": 91,
+    "surface": "规矩",
+    "meaning": "木匠使用的工具。规，用以定圆，矩，用以定方，这里指法度",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 92,
+    "clauseEnd": 92,
+    "surface": "绳墨",
+    "meaning": "工匠用以取直的工具，这里比喻法度",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 93,
+    "clauseEnd": 93,
+    "surface": "竞",
+    "meaning": "争相",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 93,
+    "clauseEnd": 93,
+    "surface": "周容",
+    "meaning": "苟合取容",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 93,
+    "clauseEnd": 93,
+    "surface": "度",
+    "meaning": "法则",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 94,
+    "clauseEnd": 94,
+    "surface": "忳",
+    "meaning": "忧愁、烦闷，副词，作“郁邑”的状语",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 96,
+    "clauseEnd": 96,
+    "surface": "溘死",
+    "meaning": "忽然死去",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 98,
+    "clauseEnd": 98,
+    "surface": "鸷鸟",
+    "meaning": "鹰隼一类性情刚猛的鸟",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 100,
+    "clauseEnd": 100,
+    "surface": "圜",
+    "meaning": "同“圆”",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 103,
+    "clauseEnd": 103,
+    "surface": "攘诟",
+    "meaning": "遭到耻辱",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 104,
+    "clauseEnd": 104,
+    "surface": "伏",
+    "meaning": "通“服”，保持",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 106,
+    "clauseEnd": 106,
+    "surface": "相",
+    "meaning": "看；观察",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 107,
+    "clauseEnd": 107,
+    "surface": "延伫",
+    "meaning": "长久站立",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 110,
+    "clauseEnd": 110,
+    "surface": "皋",
+    "meaning": "水边之地",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 110,
+    "clauseEnd": 110,
+    "surface": "兰皋",
+    "meaning": "生有兰草的水边之地",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 111,
+    "clauseEnd": 111,
+    "surface": "椒丘",
+    "meaning": "长有椒树的山丘",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 112,
+    "clauseEnd": 112,
+    "surface": "进",
+    "meaning": "指仕进",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 113,
+    "clauseEnd": 113,
+    "surface": "初服",
+    "meaning": "未入仕前的服饰，喻指自己原来的志趣",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 114,
+    "clauseEnd": 114,
+    "surface": "芰",
+    "meaning": "菱叶",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 115,
+    "clauseEnd": 115,
+    "surface": "集",
+    "meaning": "聚集",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 115,
+    "clauseEnd": 115,
+    "surface": "芙蓉",
+    "meaning": "荷花",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 116,
+    "clauseEnd": 116,
+    "surface": "已",
+    "meaning": "罢了；算了",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 117,
+    "clauseEnd": 117,
+    "surface": "信芳",
+    "meaning": "真正芳洁",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 118,
+    "clauseEnd": 118,
+    "surface": "岌岌",
+    "meaning": "高耸的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 119,
+    "clauseEnd": 119,
+    "surface": "陆离",
+    "meaning": "长长的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 120,
+    "clauseEnd": 120,
+    "surface": "杂糅",
+    "meaning": "掺杂集合",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 121,
+    "clauseEnd": 121,
+    "surface": "昭质",
+    "meaning": "光明纯洁的品质",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 122,
+    "clauseEnd": 122,
+    "surface": "游目",
+    "meaning": "纵目眺望",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 123,
+    "clauseEnd": 123,
+    "surface": "四荒",
+    "meaning": "四方极远之地",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 124,
+    "clauseEnd": 124,
+    "surface": "缤纷",
+    "meaning": "非常美好的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 125,
+    "clauseEnd": 125,
+    "surface": "弥章",
+    "meaning": "更加显著",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 125,
+    "clauseEnd": 125,
+    "surface": "章",
+    "meaning": "同“彰”，显著",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 128,
+    "clauseEnd": 128,
+    "surface": "体解",
+    "meaning": "肢解，犹言粉身碎骨",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 129,
+    "clauseEnd": 129,
+    "surface": "惩",
+    "meaning": "悔戒",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 131,
+    "clauseEnd": 131,
+    "surface": "申申",
+    "meaning": "反反复复",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 133,
+    "clauseEnd": 133,
+    "surface": "鲧",
+    "meaning": "禹的父亲",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 134,
+    "clauseEnd": 134,
+    "surface": "羽",
+    "meaning": "羽山。传说一般都认为鲧治水失败而被杀。韩非却认为因鲧直谏尧而被杀",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 135,
+    "clauseEnd": 135,
+    "surface": "博",
+    "meaning": "广博，多",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 136,
+    "clauseEnd": 136,
+    "surface": "姱节",
+    "meaning": "美好的节操",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 137,
+    "clauseEnd": 137,
+    "surface": "薋",
+    "meaning": "同“茨”，积聚的意思",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 138,
+    "clauseEnd": 138,
+    "surface": "判",
+    "meaning": "分别",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 138,
+    "clauseEnd": 138,
+    "surface": "服",
+    "meaning": "用，佩带",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 139,
+    "clauseEnd": 139,
+    "surface": "户",
+    "meaning": "同“扈”，语气助词",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 140,
+    "clauseEnd": 140,
+    "surface": "余",
+    "meaning": "犹今言“咱们”，指女媭和屈原两人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 141,
+    "clauseEnd": 141,
+    "surface": "并举",
+    "meaning": "互相吹捧",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 142,
+    "clauseEnd": 142,
+    "surface": "茕独",
+    "meaning": "孤独的意思",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 143,
+    "clauseEnd": 143,
+    "surface": "节中",
+    "meaning": "适中，不偏不过",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 144,
+    "clauseEnd": 144,
+    "surface": "凭",
+    "meaning": "愤懑",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 145,
+    "clauseEnd": 145,
+    "surface": "沅",
+    "meaning": "沅水、湘水，在湖南境内，流入洞庭湖",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 145,
+    "clauseEnd": 145,
+    "surface": "湘",
+    "meaning": "沅水、湘水，在湖南境内，流入洞庭湖",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 143,
+    "clauseEnd": 182,
+    "surface": "重华",
+    "meaning": "舜名。传说舜死后葬在九疑山",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 148,
+    "clauseEnd": 148,
+    "surface": "夏",
+    "meaning": "指启，与上文启为互文",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 149,
+    "clauseEnd": 149,
+    "surface": "不顾难",
+    "meaning": "不顾后来的患难",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 150,
+    "clauseEnd": 150,
+    "surface": "失",
+    "meaning": "古“佚”字，通“逸”",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 152,
+    "clauseEnd": 152,
+    "surface": "封狐",
+    "meaning": "大狐狸",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 153,
+    "clauseEnd": 153,
+    "surface": "乱流",
+    "meaning": "yín乱之流",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 155,
+    "clauseEnd": 155,
+    "surface": "浇",
+    "meaning": "寒浞的儿子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 158,
+    "clauseEnd": 158,
+    "surface": "用夫",
+    "meaning": "因此",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 160,
+    "clauseEnd": 160,
+    "surface": "遂",
+    "meaning": "应读作“坠”，坠失",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 163,
+    "clauseEnd": 163,
+    "surface": "汤",
+    "meaning": "商汤、夏禹",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 163,
+    "clauseEnd": 163,
+    "surface": "禹",
+    "meaning": "商汤、夏禹",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 166,
+    "clauseEnd": 166,
+    "surface": "颇",
+    "meaning": "偏邪",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 168,
+    "clauseEnd": 168,
+    "surface": "错辅",
+    "meaning": "措置",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 168,
+    "clauseEnd": 168,
+    "surface": "错",
+    "meaning": "同“措”，辅：辅助",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 170,
+    "clauseEnd": 170,
+    "surface": "苟",
+    "meaning": "乃，才",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 175,
+    "clauseEnd": 175,
+    "surface": "阽",
+    "meaning": "接近危险的意思",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 179,
+    "clauseEnd": 179,
+    "surface": "歔欷",
+    "meaning": "抽泣声",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 181,
+    "clauseEnd": 181,
+    "surface": "茹",
+    "meaning": "柔软",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 183,
+    "clauseEnd": 183,
+    "surface": "衽",
+    "meaning": "衣襟",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 184,
+    "clauseEnd": 184,
+    "surface": "中正",
+    "meaning": "不偏邪之正道",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 186,
+    "clauseEnd": 186,
+    "surface": "埃风",
+    "meaning": "卷着尘埃的大风",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 187,
+    "clauseEnd": 187,
+    "surface": "发轫",
+    "meaning": "出发",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 187,
+    "clauseEnd": 187,
+    "surface": "轫",
+    "meaning": "刹住车轮的横木",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 188,
+    "clauseEnd": 188,
+    "surface": "县圃",
+    "meaning": "神话中山名，在昆仑山顶",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 188,
+    "clauseEnd": 188,
+    "surface": "县",
+    "meaning": "古“悬”字",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 191,
+    "clauseEnd": 191,
+    "surface": "羲和",
+    "meaning": "神话中人名，太阳的驾车人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 192,
+    "clauseEnd": 192,
+    "surface": "崦嵫",
+    "meaning": "神话中山名，日落之处",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 183,
+    "clauseEnd": 214,
+    "surface": "漫漫",
+    "meaning": "同“漫漫”，遥远绵长的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 195,
+    "clauseEnd": 195,
+    "surface": "咸池",
+    "meaning": "神话中池名，太阳洗沐的地方",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 196,
+    "clauseEnd": 196,
+    "surface": "扶桑",
+    "meaning": "神话中树名，在汤谷上",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 197,
+    "clauseEnd": 197,
+    "surface": "若木",
+    "meaning": "神话中树名，在昆仑山西极，太阳所入之处",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 199,
+    "clauseEnd": 199,
+    "surface": "望舒",
+    "meaning": "神话中月神的驾车人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 200,
+    "clauseEnd": 200,
+    "surface": "奔属",
+    "meaning": "奔跑跟随",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 201,
+    "clauseEnd": 201,
+    "surface": "先戒",
+    "meaning": "先行警戒",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 205,
+    "clauseEnd": 205,
+    "surface": "飘风",
+    "meaning": "旋风",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 206,
+    "clauseEnd": 206,
+    "surface": "帅",
+    "meaning": "率领",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 208,
+    "clauseEnd": 208,
+    "surface": "斑",
+    "meaning": "斑斓",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 210,
+    "clauseEnd": 210,
+    "surface": "阊阖",
+    "meaning": "天门，楚人称门为阊阖",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 212,
+    "clauseEnd": 212,
+    "surface": "延伫",
+    "meaning": "久立",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 215,
+    "clauseEnd": 215,
+    "surface": "白水",
+    "meaning": "神话中水名，源于昆仑山，饮后不死",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 215,
+    "clauseEnd": 257,
+    "surface": "阆风",
+    "meaning": "神话中山名，在昆仑山上",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 220,
+    "clauseEnd": 220,
+    "surface": "琼枝",
+    "meaning": "玉树枝",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 220,
+    "clauseEnd": 220,
+    "surface": "琼",
+    "meaning": "美玉",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 221,
+    "clauseEnd": 221,
+    "surface": "荣华",
+    "meaning": "花。草本花称荣，木本称华",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 222,
+    "clauseEnd": 222,
+    "surface": "下女",
+    "meaning": "下界美女",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 222,
+    "clauseEnd": 222,
+    "surface": "诒",
+    "meaning": "通“贻”，赠送",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 224,
+    "clauseEnd": 224,
+    "surface": "宓妃",
+    "meaning": "相传为伏羲氏之女，溺死于洛水，遂成为洛水女神",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 225,
+    "clauseEnd": 225,
+    "surface": "佩纕",
+    "meaning": "佩囊",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 215,
+    "clauseEnd": 257,
+    "surface": "謇修",
+    "meaning": "正直贤善之人，是作者虚拟的人物",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 228,
+    "clauseEnd": 228,
+    "surface": "纬繣",
+    "meaning": "乖戾",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 229,
+    "clauseEnd": 229,
+    "surface": "穷石",
+    "meaning": "神话中山名，相传为后羿所居之处。这句是说宓妃与后羿yín乱",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 230,
+    "clauseEnd": 230,
+    "surface": "洧盘",
+    "meaning": "神话中水名，源于崦嵫山",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 237,
+    "clauseEnd": 237,
+    "surface": "瑶台",
+    "meaning": "玉台",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 238,
+    "clauseEnd": 238,
+    "surface": "有娀",
+    "meaning": "传说中的一个部落名",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 239,
+    "clauseEnd": 239,
+    "surface": "鸩",
+    "meaning": "鸟名，羽有毒，置于酒中，饮之致人死命",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 243,
+    "clauseEnd": 243,
+    "surface": "犹豫",
+    "meaning": "疑惑不决",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 243,
+    "clauseEnd": 243,
+    "surface": "狐疑",
+    "meaning": "疑惑不决",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 244,
+    "clauseEnd": 244,
+    "surface": "自适",
+    "meaning": "自往",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 246,
+    "clauseEnd": 246,
+    "surface": "高辛",
+    "meaning": "帝喾的别号",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 249,
+    "clauseEnd": 249,
+    "surface": "少康",
+    "meaning": "夏代中兴的国君",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 252,
+    "clauseEnd": 252,
+    "surface": "导言",
+    "meaning": "指传送的信札",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 256,
+    "clauseEnd": 256,
+    "surface": "哲王",
+    "meaning": "明智的君王，指楚怀王",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 260,
+    "clauseEnd": 260,
+    "surface": "灵氛",
+    "meaning": "传说中的神巫名，善占卜",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 262,
+    "clauseEnd": 262,
+    "surface": "两美",
+    "meaning": "指明君贤臣",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 263,
+    "clauseEnd": 263,
+    "surface": "慕",
+    "meaning": "与“占”不叶韵，闻一多《楚辞校补》认为是“莫念”的误合，“念”字坏上部，仅余下部“心”，故二字误合作“慕”。译文从之",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 265,
+    "clauseEnd": 265,
+    "surface": "是",
+    "meaning": "此。以上四句是问卜之辞",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 265,
+    "clauseEnd": 265,
+    "surface": "女",
+    "meaning": "同“汝”。自“勉远”句至“谓申椒之不芳”句，为灵氛所说",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 271,
+    "clauseEnd": 271,
+    "surface": "故宇",
+    "meaning": "故居，这里指楚国",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 260,
+    "clauseEnd": 282,
+    "surface": "昡曜",
+    "meaning": "眼光迷乱",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 275,
+    "clauseEnd": 275,
+    "surface": "民",
+    "meaning": "人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 277,
+    "clauseEnd": 277,
+    "surface": "户",
+    "meaning": "读作“扈”，语气助词",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 280,
+    "clauseEnd": 280,
+    "surface": "珵",
+    "meaning": "美玉",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 281,
+    "clauseEnd": 281,
+    "surface": "苏",
+    "meaning": "取",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 281,
+    "clauseEnd": 281,
+    "surface": "粪壤",
+    "meaning": "粪土",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 281,
+    "clauseEnd": 281,
+    "surface": "充",
+    "meaning": "塞满",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 260,
+    "clauseEnd": 282,
+    "surface": "祎",
+    "meaning": "香袋",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 285,
+    "clauseEnd": 285,
+    "surface": "巫咸",
+    "meaning": "传说中的神巫名",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 286,
+    "clauseEnd": 286,
+    "surface": "糈",
+    "meaning": "精米。这里椒、糈都是享神的用物",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 287,
+    "clauseEnd": 287,
+    "surface": "翳",
+    "meaning": "遮蔽",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 289,
+    "clauseEnd": 289,
+    "surface": "剡剡",
+    "meaning": "闪闪发光的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 293,
+    "clauseEnd": 293,
+    "surface": "矱",
+    "meaning": "量长度的工具",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 293,
+    "clauseEnd": 293,
+    "surface": "矩矱",
+    "meaning": "喻指法度",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 283,
+    "clauseEnd": 339,
+    "surface": "求合",
+    "meaning": "寻求志同道合的人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 295,
+    "clauseEnd": 295,
+    "surface": "咎繇",
+    "meaning": "即皋陶，禹之贤臣",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 299,
+    "clauseEnd": 299,
+    "surface": "武丁",
+    "meaning": "殷高宗名。传说武丁在梦中得一贤臣，就画像到处访寻，后来在傅岩筑墙的刑徒中找到了傅说，于是用为国相，国遂大治",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 300,
+    "clauseEnd": 300,
+    "surface": "鼓刀",
+    "meaning": "鸣刀、钢(ɡànɡ)刀。相传吕望未发迹时曾在朝歌做屠夫",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 302,
+    "clauseEnd": 302,
+    "surface": "宁戚",
+    "meaning": "春秋卫国人，未遇时曾经商",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 304,
+    "clauseEnd": 304,
+    "surface": "晏",
+    "meaning": "晚",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 283,
+    "clauseEnd": 339,
+    "surface": "鹈鴃",
+    "meaning": "鸟名，杜鹃。据说杜鹃鸣时，正是春事已过百花凋零时节",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 309,
+    "clauseEnd": 309,
+    "surface": "众",
+    "meaning": "指党人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 311,
+    "clauseEnd": 311,
+    "surface": "恐",
+    "meaning": "读作“共”",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 321,
+    "clauseEnd": 321,
+    "surface": "容长",
+    "meaning": "外表好看",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 283,
+    "clauseEnd": 339,
+    "surface": "樧",
+    "meaning": "恶木名，即木本植物食茱萸。此指食茱萸所结的籽，味辛辣",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 327,
+    "clauseEnd": 327,
+    "surface": "祗",
+    "meaning": "振",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 336,
+    "clauseEnd": 336,
+    "surface": "调",
+    "meaning": "行走时佩饰发出的铿锵声",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 341,
+    "clauseEnd": 341,
+    "surface": "历",
+    "meaning": "选择",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 342,
+    "clauseEnd": 342,
+    "surface": "羞",
+    "meaning": "肉脯，这里指精美的菜肴",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 343,
+    "clauseEnd": 343,
+    "surface": "琼爢",
+    "meaning": "玉屑",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 345,
+    "clauseEnd": 345,
+    "surface": "象",
+    "meaning": "象牙",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 350,
+    "clauseEnd": 350,
+    "surface": "云霓",
+    "meaning": "以云霓为旗，一说画有云霓的旗",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 351,
+    "clauseEnd": 351,
+    "surface": "玉鸾",
+    "meaning": "玉铃，形如鸾鸟",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 352,
+    "clauseEnd": 352,
+    "surface": "天津",
+    "meaning": "天河的渡口",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 354,
+    "clauseEnd": 354,
+    "surface": "翼",
+    "meaning": "展翼",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 355,
+    "clauseEnd": 355,
+    "surface": "翼翼",
+    "meaning": "整齐的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 357,
+    "clauseEnd": 357,
+    "surface": "赤水",
+    "meaning": "神话中水名，源出昆仑山",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 359,
+    "clauseEnd": 359,
+    "surface": "西皇",
+    "meaning": "古帝王少嗥氏",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 362,
+    "clauseEnd": 362,
+    "surface": "不周",
+    "meaning": "不周山，神话中山名，在昆仑西北，山有缺口，故称不周",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 340,
+    "clauseEnd": 375,
+    "surface": "玉轪",
+    "meaning": "车毂端的冒盖",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 367,
+    "clauseEnd": 367,
+    "surface": "委蛇",
+    "meaning": "迎风舒展的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 369,
+    "clauseEnd": 369,
+    "surface": "邈邈",
+    "meaning": "遥远的样子",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 340,
+    "clauseEnd": 375,
+    "surface": "偷",
+    "meaning": "同“愉”",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 373,
+    "clauseEnd": 373,
+    "surface": "临",
+    "meaning": "居高视下谓临",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 375,
+    "clauseEnd": 375,
+    "surface": "蜷局",
+    "meaning": "蜷曲不伸",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 376,
+    "clauseEnd": 376,
+    "surface": "乱",
+    "meaning": "乐曲的卒章称乱，也就是尾声的意思。从文章方面讲，乱，理也。篇章既成，撮其大要，称乱辞",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 378,
+    "clauseEnd": 378,
+    "surface": "无人",
+    "meaning": "指无贤人",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 379,
+    "clauseEnd": 379,
+    "surface": "故都",
+    "meaning": "故国",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 380,
+    "clauseEnd": 380,
+    "surface": "美政",
+    "meaning": "指屈原的政治理想和主张",
+    "source": "ying-web"
+  },
+  {
+    "clauseStart": 381,
+    "clauseEnd": 381,
+    "surface": "从彭咸之所居",
+    "meaning": "即从彭咸于地下的意思，钱果之《离骚集传》：“犹言相从古人于地下也。”",
+    "source": "ying-web"
+  }
+]

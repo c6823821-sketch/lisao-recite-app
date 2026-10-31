@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
-  findGlossaryContext,
+  findCharacterContext,
   getCharacterReadings,
   getTermContext,
   getUnitGlossary,
@@ -19,7 +19,11 @@ interface Props {
 
 export function CharacterInspector({ selection, unit, sectionTitle, onClose }: Props) {
   const [activeText, setActiveText] = useState(selection);
-  useEffect(() => setActiveText(selection), [selection]);
+  const [dictionaryExpanded, setDictionaryExpanded] = useState(false);
+  useEffect(() => {
+    setActiveText(selection);
+    setDictionaryExpanded(false);
+  }, [selection]);
 
   const isPhrase = Boolean(activeText && activeText.length > 1);
   const phraseCharacters = activeText ? [...activeText].filter(isHanCharacter) : [];
@@ -31,7 +35,7 @@ export function CharacterInspector({ selection, unit, sectionTitle, onClose }: P
   const glossary = unit ? getUnitGlossary(unit) : [];
   const termContext = activeText && unit ? getTermContext(activeText, unit) : undefined;
   const dictionaryContext = activeText?.length === 1 && unit
-    ? findGlossaryContext(activeText, unit.text)
+    ? findCharacterContext(activeText, unit)
     : undefined;
   const context = termContext
     ? {
@@ -68,7 +72,7 @@ export function CharacterInspector({ selection, unit, sectionTitle, onClose }: P
 
             {context ? (
               <View style={styles.contextCard}>
-                <Text style={styles.contextLabel}>本句中的词义</Text>
+                <Text style={styles.contextLabel}>{isPhrase ? '本句中的词义' : '本句中的字义'}</Text>
                 <Text style={styles.contextWord}>
                   {context.surface}
                   {context.pinyin ? `　${context.pinyin}` : ''}
@@ -115,7 +119,7 @@ export function CharacterInspector({ selection, unit, sectionTitle, onClose }: P
             {isPhrase ? (
               <>
                 <Text style={styles.blockTitle}>逐字读音与义项</Text>
-                <Text style={styles.termHint}>整词同时看：先读准每个字，再把这个词放回整句里理解。</Text>
+                <Text style={styles.termHint}>上方语境义优先；下面的字典义项用于补充理解，不代表每个字都只取这一义。</Text>
                 {phraseReadings.map(({ character, readings: characterReadings }, characterIndex) => (
                   <View key={`${character}-${characterIndex}`} style={styles.phraseCharacterCard}>
                     <View style={styles.phraseCharacterHeading}>
@@ -139,27 +143,41 @@ export function CharacterInspector({ selection, unit, sectionTitle, onClose }: P
               </>
             ) : activeText?.length === 1 ? (
               <>
-                <Text style={styles.blockTitle}>字典义项</Text>
-                {readings.length ? readings.map((reading, readingIndex) => (
-              <View key={`${reading.pronunciation}-${readingIndex}`} style={styles.readingCard}>
-                <View style={styles.pinyinBadge}>
-                  <Text style={styles.pinyinBadgeText}>{reading.pronunciation}</Text>
-                </View>
-                {reading.meanings.map((meaning, meaningIndex) => (
-                  <View key={`${reading.pronunciation}-${meaningIndex}`} style={styles.meaningRow}>
-                    <Text style={styles.meaningIndex}>{meaningIndex + 1}</Text>
-                    <Text style={styles.meaningText}>{meaning}</Text>
-                  </View>
-                ))}
-              </View>
-                )) : (
-                  <Text style={styles.emptyText}>这个字暂未收录释义，可以结合整句译文和本章讲解理解。</Text>
-                )}
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityState={{ expanded: dictionaryExpanded }}
+                  onPress={() => setDictionaryExpanded((value) => !value)}
+                  style={({ pressed }) => [styles.dictionaryToggle, pressed && styles.pressed]}
+                >
+                  <Text style={styles.dictionaryToggleTitle}>
+                    字典常见义项 · {dictionaryExpanded ? '收起' : '展开补充'}
+                  </Text>
+                  <Text style={styles.dictionaryToggleHint}>
+                    {dictionaryExpanded ? '这些是通用义项，上方本句字义优先。' : '不是本句唯一解释，先看上方本句字义。'}
+                  </Text>
+                </Pressable>
+                {dictionaryExpanded ? (
+                  readings.length ? readings.map((reading, readingIndex) => (
+                    <View key={`${reading.pronunciation}-${readingIndex}`} style={styles.readingCard}>
+                      <View style={styles.pinyinBadge}>
+                        <Text style={styles.pinyinBadgeText}>{reading.pronunciation}</Text>
+                      </View>
+                      {reading.meanings.map((meaning, meaningIndex) => (
+                        <View key={`${reading.pronunciation}-${meaningIndex}`} style={styles.meaningRow}>
+                          <Text style={styles.meaningIndex}>{meaningIndex + 1}</Text>
+                          <Text style={styles.meaningText}>{meaning}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  )) : (
+                    <Text style={styles.emptyText}>这个字暂未收录字典义项。</Text>
+                  )
+                ) : null}
               </>
             ) : null}
 
             <Text style={styles.disclaimer}>
-              古汉语字典给的是常见义项，不等于“本句唯一解释”；通假、词类活用和具体语境仍要结合译文判断。
+              页面先给本句取义，再列字典常见义项。遇到通假、词类活用或版本异文时，以整句翻译和本章导读为准。
             </Text>
           </ScrollView>
           <Pressable onPress={onClose} style={styles.closeButton}>
@@ -233,6 +251,10 @@ const styles = StyleSheet.create({
   termButtonTextActive: { color: colors.vermilion, fontWeight: '800' },
   blockTitle: { color: colors.ink, fontFamily: fonts.title, fontSize: 19, fontWeight: '800', marginTop: 22, marginBottom: 10 },
   readingCard: { marginBottom: 10, padding: 14, borderRadius: 15, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.paper },
+  dictionaryToggle: { paddingHorizontal: 15, paddingVertical: 13, borderRadius: 14, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.paper },
+  dictionaryToggleTitle: { color: colors.ink, fontFamily: fonts.body, fontSize: 15, fontWeight: '800' },
+  dictionaryToggleHint: { color: colors.muted, fontFamily: fonts.body, fontSize: 12, lineHeight: 19, marginTop: 4 },
+  pressed: { opacity: 0.72 },
   phraseCharacterCard: { marginBottom: 10, padding: 14, borderRadius: 15, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.paper },
   phraseCharacterHeading: { flexDirection: 'row', alignItems: 'baseline', gap: 12 },
   phraseCharacter: { color: colors.vermilion, fontFamily: fonts.title, fontSize: 27, fontWeight: '800' },
