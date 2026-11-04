@@ -3,8 +3,8 @@
   "versionCode": 6,
   "downloadUrl": "https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.5/lisao-recite-app-v1.0.5-arm64.apk",
   "mirrorDownloadUrl": "https://gh-proxy.com/https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.5/lisao-recite-app-v1.0.5-arm64.apk",
-  "sizeBytes": 0,
-  "sha256": "",
+  "sizeBytes": 26696066,
+  "sha256": "5F697518CE0F9E37FBBDB5BACF057347E501247C5DA641E27C2666F030C8A6C3",
   "notes": [
     "点任意单字或任选连续词语，可调用 OpenAI 兼容 API 判断本句语境义。",
     "“我的”可配置 API 地址、模型和 Key，Key 只保存在本机。",
