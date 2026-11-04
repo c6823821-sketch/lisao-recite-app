@@ -174,7 +174,15 @@ function AppShell() {
       <StatusBar style="dark" />
       <View style={styles.content}>
         {tab === 'today' ? <TodayScreen progress={progress} onStart={startAction} onOpenSection={openSection} onOpenUnit={startSection} /> : null}
-        {tab === 'sections' ? <SectionsScreen progress={progress} onOpenSection={openSection} onOpenGuide={openGuide} onStartAll={startAll} /> : null}
+        {tab === 'sections' ? (
+          <SectionsScreen
+            progress={progress}
+            onOpenSection={openSection}
+            onStartSection={startSection}
+            onOpenGuide={openGuide}
+            onStartAll={startAll}
+          />
+        ) : null}
         {tab === 'mine' ? (
           <MineScreen
             progress={progress}

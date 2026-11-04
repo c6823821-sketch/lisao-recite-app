@@ -6,7 +6,7 @@ import {
   isHanCharacter,
 } from '../src/data/characterDictionary';
 import { LISAO_SECTIONS, LISAO_UNITS } from '../src/data/lisaoCurriculum';
-import { buildTodayPlan, contextForUnit, insertRetry, sectionForUnit } from '../src/services/plan';
+import { buildQueueForAction, buildTodayPlan, contextForUnit, insertRetry, sectionForUnit } from '../src/services/plan';
 import type { AppProgress } from '../src/services/progress';
 
 const now = new Date('2026-10-30T08:00:00+08:00');
@@ -171,6 +171,11 @@ assert.deepEqual(
 assert.equal(LISAO_UNITS[0].id, retryQueue[0].id, '插入回炉不能会改变原队列本身');
 
 for (const section of LISAO_SECTIONS) {
+  assert.deepEqual(
+    buildQueueForAction(initial, 'daily', section.id).map((unit) => unit.id),
+    section.units.map((unit) => unit.id),
+    `${section.title} 的“只背本章”队列混入了其他章节内容`,
+  );
   assert.ok(
     section.units.some((unit) => getUnitGlossary(unit).some((term) => term.surface.length > 1)),
     `${section.title} 没有可整词点选的重点词`,

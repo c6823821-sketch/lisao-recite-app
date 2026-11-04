@@ -1,0 +1,116 @@
+name: Build Android release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify source
+        run: pnpm run check
+
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Build ARM64 APK
+        env:
+          NODE_ENV: production
+        run: ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
+        working-directory: android
+
+      - name: Prepare release files
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION=$(node -p "require('./package.json').version")
+          APK="lisao-recite-app-v${VERSION}-arm64.apk"
+          cp "android/app/build/outputs/apk/release/app-release.apk" "$APK"
+          SIZE=$(stat -c%s "$APK")
+          SHA256=$(sha256sum "$APK" | awk '{print toupper($1)}')
+          node - "$VERSION" "$SIZE" "$SHA256" <<'NODE'
+          const fs = require('fs');
+          const [version, size, sha256] = process.argv.slice(2);
+          const manifest = JSON.parse(fs.readFileSync('version.json', 'utf8'));
+          const asset = `lisao-recite-app-v${version}-arm64.apk`;
+          manifest.version = version;
+          manifest.versionCode = Number(require('./app.json').expo.android.versionCode);
+          manifest.downloadUrl = `https://github.com/${process.env.GITHUB_REPOSITORY}/releases/download/v${version}/${asset}`;
+          manifest.mirrorDownloadUrl = `https://gh-proxy.com/${manifest.downloadUrl}`;
+          manifest.sizeBytes = Number(size);
+          manifest.sha256 = sha256;
+          fs.writeFileSync('version.json', `${JSON.stringify(manifest, null, 2)}\n`);
+          NODE
+          printf '%s  %s\n' "$SHA256" "$APK" > SHA256.txt
+          sed -n '1,12p' CHANGELOG.md > RELEASE_NOTES.md
+          echo "APK_NAME=$APK" >> "$GITHUB_ENV"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "SIZE=$SIZE" >> "$GITHUB_ENV"
+          echo "SHA256=$SHA256" >> "$GITHUB_ENV"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lisao-recite-v${{ env.VERSION }}-arm64
+          path: |
+            ${{ env.APK_NAME }}
+            SHA256.txt
+            version.json
+
+      - name: Commit release manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add version.json SHA256.txt
+          if git diff --cached --quiet; then
+            echo "Release manifest already up to date."
+          else
+            git commit -m "release: publish v$VERSION metadata"
+            git push origin HEAD:main
+          fi
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git tag -f "v$VERSION"
+          git push --force origin "refs/tags/v$VERSION"
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            gh release upload "v$VERSION" "$APK_NAME" --clobber
+          else
+            gh release create "v$VERSION" "$APK_NAME" \
+              --title "离骚背诵 v$VERSION" \
+              --notes-file RELEASE_NOTES.md \
+              --latest
+          fi

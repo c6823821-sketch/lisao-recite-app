@@ -1,23 +1,17 @@
 {
-  "version": "1.0.4",
-  "versionCode": 5,
-  "downloadUrl": "https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.4/lisao-recite-app-v1.0.4-arm64.apk",
-  "mirrorDownloadUrl": "https://gh-proxy.com/https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.4/lisao-recite-app-v1.0.4-arm64.apk",
-  "sizeBytes": 26671926,
-  "sha256": "CD78C977B9404998A4D497CE665CCBA6C0D91A5C18CB127F4BABC754878580CD",
+  "version": "1.0.5",
+  "versionCode": 6,
+  "downloadUrl": "https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.5/lisao-recite-app-v1.0.5-arm64.apk",
+  "mirrorDownloadUrl": "https://gh-proxy.com/https://github.com/c6823821-sketch/lisao-recite-app/releases/download/v1.0.5/lisao-recite-app-v1.0.5-arm64.apk",
+  "sizeBytes": 0,
+  "sha256": "",
   "notes": [
-    "单字释义改为先显示“本句中的字义”，不再把通用古汉语义项冒充本句解释。",
-    "新增 243 条按分句定位的逐句词语注释，覆盖专名、香草、通假、活用和易混多义词。",
-    "单字位于固定词语中时，会明确说明该字要和整词一起理解。",
-    "字典常见义项改为默认收起，只作补充查阅。",
-    "全部 2,489 个单字位置都经过本句字义自动化检查。",
-    "保留背诵页只露上文、不剧透下一句的修复。",
-    "原文支持任选连续词语：点词首再点词尾即可查整词，连续点同一字两次查单字。",
-    "整词可查看逐字读音、义项、本句中的词义和整句译意。",
-    "“不会”改为隔一组回炉，“要提示”隔两组再练，新学位置也不会再跳回全篇开头。",
-    "评分“不会”或“要提示”后会先停留讲解页，自动显示译意和背诵路标。",
-    "修复切换下一组时沿用上一页滚动位置、当前原文被截掉的问题，并优化页面响应。",
-    "补回应用内更新所需的安装包权限，修复检查到新版后无法继续调用系统安装器的问题。",
-    "更新检查和下载新增可用镜像，GitHub 受限时也能继续获取正式版。"
+    "点任意单字或任选连续词语，可调用 OpenAI 兼容 API 判断本句语境义。",
+    "“我的”可配置 API 地址、模型和 Key，Key 只保存在本机。",
+    "AI 结果显示读音、语法作用、判断依据和把握程度，并支持本地缓存。",
+    "API 未配置、失败或超时时明确提示，并退回离线字义参考。",
+    "分章页新增“只背本章 / 继续本章 / 复习本章”，不再混入其他章节。",
+    "章节详情顶部可直接进入本章背诵，有进度时从未学句对继续。",
+    "修复整章完成后按钮误写为“回到今日”，现改为“完成并返回”。"
   ]
 }

@@ -174,7 +174,7 @@ export function ReciteScreen({
           今日安排了 {initialQueue.length} 个连续句对，本轮共作答 {completedRef.current} 次，回炉 {retryCount} 次。
           评分和背诵进度已经保存，下一次复习会自动排进今日安排。
         </Text>
-        <Pressable onPress={onBack} style={styles.finishButton}><Text style={styles.finishButtonText}>回到今日</Text></Pressable>
+        <Pressable onPress={onBack} style={styles.finishButton}><Text style={styles.finishButtonText}>完成并返回</Text></Pressable>
       </View>
     );
   }

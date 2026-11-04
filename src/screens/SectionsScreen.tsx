@@ -3,17 +3,18 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LISAO_SECTIONS } from '../data/lisaoCurriculum';
 import { sectionProgress } from '../services/plan';
-import { AppProgress, summarizeProgress } from '../services/progress';
+import { AppProgress, getCard, summarizeProgress } from '../services/progress';
 import { colors, fonts, radius, shadow, spacing } from '../theme';
 
 interface Props {
   progress: AppProgress;
   onOpenSection: (sectionId: string) => void;
+  onStartSection: (sectionId: string, unitIndex: number) => void;
   onOpenGuide: () => void;
   onStartAll: () => void;
 }
 
-export function SectionsScreen({ progress, onOpenSection, onOpenGuide, onStartAll }: Props) {
+export function SectionsScreen({ progress, onOpenSection, onStartSection, onOpenGuide, onStartAll }: Props) {
   const insets = useSafeAreaInsets();
   const progressBySection = useMemo(() => new Map(
     sectionProgress(progress).map((item) => [item.sectionId, item]),
@@ -58,33 +59,56 @@ export function SectionsScreen({ progress, onOpenSection, onOpenGuide, onStartAl
         {LISAO_SECTIONS.map((section) => {
           const stat = progressBySection.get(section.id);
           const ratio = stat?.ratio ?? 0;
+          const firstUnlearnedIndex = section.units.findIndex((unit) => getCard(progress, unit.id).reps === 0);
+          const chapterStartIndex = firstUnlearnedIndex >= 0 ? firstUnlearnedIndex : 0;
+          const chapterAction = ratio >= 1
+            ? `复习本章`
+            : ratio > 0
+              ? `继续本章`
+              : `只背本章`;
           return (
-            <Pressable
-              key={section.id}
-              onPress={() => onOpenSection(section.id)}
-              style={({ pressed }) => [styles.sectionCard, pressed && styles.pressed]}
-            >
-              <View style={styles.sectionTop}>
-                <View style={styles.sectionCopy}>
-                  <Text style={styles.sectionTitle}>{section.title}</Text>
-                  <Text style={styles.sectionSubtitle}>{section.subtitle}</Text>
+            <View key={section.id} style={styles.sectionCard}>
+              <Pressable
+                onPress={() => onOpenSection(section.id)}
+                style={({ pressed }) => [styles.sectionReadArea, pressed && styles.pressed]}
+              >
+                <View style={styles.sectionTop}>
+                  <View style={styles.sectionCopy}>
+                    <Text style={styles.sectionTitle}>{section.title}</Text>
+                    <Text style={styles.sectionSubtitle}>{section.subtitle}</Text>
+                  </View>
+                  <View style={styles.sectionCount}>
+                    <Text style={styles.sectionCountValue}>{stat?.studied ?? 0}/{stat?.total ?? section.units.length}</Text>
+                    <Text style={styles.sectionCountLabel}>句对</Text>
+                  </View>
                 </View>
-                <View style={styles.sectionCount}>
-                  <Text style={styles.sectionCountValue}>{stat?.studied ?? 0}/{stat?.total ?? section.units.length}</Text>
-                  <Text style={styles.sectionCountLabel}>句对</Text>
+                <Text style={styles.sectionOverview} numberOfLines={2}>{section.overview}</Text>
+                <View style={styles.progressTrack}>
+                  <View style={[styles.progressFill, { width: `${ratio * 100}%` }]} />
                 </View>
+                <View style={styles.sectionBottom}>
+                  <Text style={styles.sectionStatus}>
+                    {(stat?.due ?? 0) > 0 ? `${stat?.due} 句对待复习` : ratio >= 1 ? '已全部学习' : ratio > 0 ? '继续学习' : '尚未开始'}
+                  </Text>
+                  <Text style={styles.sectionAction}>精读 ›</Text>
+                </View>
+              </Pressable>
+              <View style={styles.sectionActions}>
+                <Pressable
+                  onPress={() => onStartSection(section.id, chapterStartIndex)}
+                  style={({ pressed }) => [styles.sectionReciteButton, pressed && styles.pressed]}
+                >
+                  <Text style={styles.sectionReciteText}>{chapterAction}</Text>
+                  <Text style={styles.sectionReciteHint}>{section.units.length} 个句对</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => onOpenSection(section.id)}
+                  style={({ pressed }) => [styles.sectionGuideButton, pressed && styles.pressed]}
+                >
+                  <Text style={styles.sectionGuideText}>先读讲解</Text>
+                </Pressable>
               </View>
-              <Text style={styles.sectionOverview} numberOfLines={2}>{section.overview}</Text>
-              <View style={styles.progressTrack}>
-                <View style={[styles.progressFill, { width: `${ratio * 100}%` }]} />
-              </View>
-              <View style={styles.sectionBottom}>
-                <Text style={styles.sectionStatus}>
-                  {(stat?.due ?? 0) > 0 ? `${stat?.due} 句对待复习` : ratio >= 1 ? '已全部学习' : ratio > 0 ? '继续学习' : '尚未开始'}
-                </Text>
-                <Text style={styles.sectionAction}>精读 ›</Text>
-              </View>
-            </Pressable>
+            </View>
           );
         })}
       </ScrollView>
@@ -112,7 +136,8 @@ const styles = StyleSheet.create({
   allTitle: { color: colors.white, fontFamily: fonts.title, fontSize: 18, fontWeight: '800' },
   allHint: { color: 'rgba(255,255,255,0.78)', fontFamily: fonts.body, fontSize: 11, lineHeight: 18, marginTop: 3 },
   allArrow: { color: colors.white, fontFamily: fonts.sans, fontSize: 26 },
-  sectionCard: { marginTop: 14, padding: 16, borderRadius: radius.card, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, ...shadow },
+  sectionCard: { marginTop: 14, borderRadius: radius.card, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, overflow: 'hidden', ...shadow },
+  sectionReadArea: { padding: 16 },
   sectionTop: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
   sectionCopy: { flex: 1, minWidth: 0 },
   sectionTitle: { color: colors.ink, fontFamily: fonts.title, fontSize: 19, fontWeight: '800' },
@@ -126,5 +151,11 @@ const styles = StyleSheet.create({
   sectionBottom: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 },
   sectionStatus: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10 },
   sectionAction: { color: colors.vermilion, fontFamily: fonts.body, fontSize: 12, fontWeight: '700' },
+  sectionActions: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingBottom: 16 },
+  sectionReciteButton: { flex: 1.35, minHeight: 46, paddingHorizontal: 13, borderRadius: 12, backgroundColor: colors.vermilion, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  sectionReciteText: { color: colors.white, fontFamily: fonts.body, fontSize: 14, fontWeight: '800' },
+  sectionReciteHint: { color: 'rgba(255,255,255,0.76)', fontFamily: fonts.sans, fontSize: 9 },
+  sectionGuideButton: { flex: 1, minHeight: 46, borderRadius: 12, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.paper },
+  sectionGuideText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, fontWeight: '700' },
   pressed: { opacity: 0.7 },
 });

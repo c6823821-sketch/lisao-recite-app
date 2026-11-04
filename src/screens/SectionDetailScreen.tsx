@@ -33,6 +33,13 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
   }, [progress, section]);
 
   const inspectorUnit = inspector ? section.units[inspector.unitIndex] : null;
+  const firstUnlearnedIndex = section.units.findIndex((unit) => getCard(progress, unit.id).reps === 0);
+  const chapterStartIndex = firstUnlearnedIndex >= 0 ? firstUnlearnedIndex : 0;
+  const chapterAction = stats.studied >= section.units.length
+    ? '复习这一章'
+    : stats.studied > 0
+      ? '继续背这一章'
+      : '只背这一章';
 
   return (
     <View style={styles.container}>
@@ -56,6 +63,18 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
         <Text style={styles.eyebrow}>{section.subtitle}</Text>
         <Text style={styles.title}>{section.title}</Text>
         <Text style={styles.stats}>已学 {stats.studied}/{section.units.length} 句对 · 较稳固 {stats.mastered}</Text>
+        <Pressable
+          onPress={() => onStartSection(section.id, chapterStartIndex)}
+          style={({ pressed }) => [styles.quickStartButton, pressed && styles.pressed]}
+        >
+          <View>
+            <Text style={styles.quickStartText}>{chapterAction}</Text>
+            <Text style={styles.quickStartHint}>
+              {stats.studied > 0 ? '从未学句对接着背，不混入其他章节' : '从本章第一句开始，不混入其他章节'}
+            </Text>
+          </View>
+          <Text style={styles.quickStartCount}>{section.units.length} 组 ›</Text>
+        </Pressable>
 
         <View style={styles.primaryCard}>
           <Text style={styles.primaryLabel}>本章主旨</Text>
@@ -103,14 +122,6 @@ export function SectionDetailScreen({ section, progress, onBack, onStartSection 
           <Text style={styles.memoryLabel}>背诵线索</Text>
           <Text style={styles.memoryText}>{section.memoryGuide}</Text>
         </View>
-
-        <Pressable
-          onPress={() => onStartSection(section.id, 0)}
-          style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
-        >
-          <Text style={styles.startButtonText}>从本章开始背诵</Text>
-          <Text style={styles.startButtonHint}>共 {section.units.length} 个句对</Text>
-        </Pressable>
 
         <Text style={styles.blockTitle}>重点词与典故</Text>
         <View style={styles.notesCard}>
@@ -188,6 +199,10 @@ const styles = StyleSheet.create({
   eyebrow: { color: colors.vermilion, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.5 },
   title: { color: colors.ink, fontFamily: fonts.title, fontSize: 31, fontWeight: '800', marginTop: 8 },
   stats: { color: colors.muted, fontFamily: fonts.sans, fontSize: 11, marginTop: 8 },
+  quickStartButton: { minHeight: 68, marginTop: 16, paddingHorizontal: 18, borderRadius: 16, backgroundColor: colors.vermilion, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', ...shadow },
+  quickStartText: { color: colors.white, fontFamily: fonts.body, fontSize: 17, fontWeight: '800' },
+  quickStartHint: { color: 'rgba(255,255,255,0.76)', fontFamily: fonts.body, fontSize: 10, lineHeight: 17, marginTop: 3 },
+  quickStartCount: { color: colors.white, fontFamily: fonts.sans, fontSize: 11 },
   primaryCard: { marginTop: 22, padding: 18, borderRadius: radius.card, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, ...shadow },
   primaryLabel: { color: colors.jade, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.5 },
   overview: { color: colors.ink, fontFamily: fonts.body, fontSize: 16, lineHeight: 28, marginTop: 10 },
@@ -210,9 +225,6 @@ const styles = StyleSheet.create({
   memoryCard: { marginTop: 12, padding: 16, borderRadius: 16, backgroundColor: colors.jadeSoft },
   memoryLabel: { color: colors.jade, fontFamily: fonts.sans, fontSize: 11, fontWeight: '700' },
   memoryText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14, lineHeight: 24, marginTop: 8 },
-  startButton: { minHeight: 60, marginTop: 16, paddingHorizontal: 18, borderRadius: 16, backgroundColor: colors.vermilion, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  startButtonText: { color: colors.white, fontFamily: fonts.body, fontSize: 17, fontWeight: '800' },
-  startButtonHint: { color: 'rgba(255,255,255,0.75)', fontFamily: fonts.sans, fontSize: 10 },
   blockTitle: { color: colors.ink, fontFamily: fonts.title, fontSize: 20, fontWeight: '800', marginTop: 28, marginBottom: 12 },
   notesCard: { borderRadius: 16, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.card, paddingHorizontal: 16 },
   noteRow: { flexDirection: 'row', paddingVertical: 14, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },

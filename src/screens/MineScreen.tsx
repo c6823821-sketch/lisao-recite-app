@@ -1,8 +1,15 @@
-import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { UpdateCard } from '../components/UpdateCard';
 import { LISAO_SECTIONS, LISAO_UNITS } from '../data/lisaoCurriculum';
+import {
+  AiSettings,
+  DEFAULT_AI_SETTINGS,
+  clearAiContextCache,
+  loadAiSettings,
+  saveAiSettings,
+} from '../services/aiContext';
 import {
   AppProgress,
   dueLabel,
@@ -26,6 +33,9 @@ const TARGETS = [4, 8, 12, 16];
 export function MineScreen({ progress, onSetDailyTarget, onOpenUnit, onReset }: Props) {
   const insets = useSafeAreaInsets();
   const [showAllLearned, setShowAllLearned] = useState(false);
+  const [aiSettings, setAiSettings] = useState<AiSettings>(DEFAULT_AI_SETTINGS);
+  const [aiSaving, setAiSaving] = useState(false);
+  const [aiMessage, setAiMessage] = useState('');
   const summary = useMemo(() => summarizeProgress(progress), [progress]);
   const learned = useMemo(() => getLearnedUnits(progress), [progress]);
   const reviewedEvents = progress.history.length;
@@ -38,6 +48,35 @@ export function MineScreen({ progress, onSetDailyTarget, onOpenUnit, onReset }: 
       .map((event) => event.unitId),
   );
   const visibleLearned = showAllLearned ? learned : learned.slice(0, 8);
+
+  useEffect(() => {
+    void loadAiSettings()
+      .then(setAiSettings)
+      .catch(() => setAiMessage('读取 AI 设置失败，请重新填写。'));
+  }, []);
+
+  const saveAi = async () => {
+    setAiSaving(true);
+    setAiMessage('');
+    try {
+      const saved = await saveAiSettings(aiSettings);
+      setAiSettings(saved);
+      setAiMessage('已保存。回到原文点任意字或任选词语即可判断。');
+    } catch (error) {
+      setAiMessage(error instanceof Error ? error.message : '保存失败。');
+    } finally {
+      setAiSaving(false);
+    }
+  };
+
+  const clearAiCache = async () => {
+    try {
+      await clearAiContextCache();
+      setAiMessage('AI 释义缓存已清除，下次查询会重新请求。');
+    } catch {
+      setAiMessage('清除缓存失败。');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -80,6 +119,59 @@ export function MineScreen({ progress, onSetDailyTarget, onOpenUnit, onReset }: 
               </Pressable>
             );
           })}
+        </View>
+
+        <Text style={styles.blockTitle}>AI 本句释义</Text>
+        <Text style={styles.blockHint}>配置 OpenAI 兼容接口。Key 只保存在这台手机上，不会写入源码或上传。</Text>
+        <View style={styles.aiSettingsCard}>
+          <Text style={styles.aiFieldLabel}>API 地址</Text>
+          <TextInput
+            value={aiSettings.baseUrl}
+            onChangeText={(baseUrl) => setAiSettings((value) => ({ ...value, baseUrl }))}
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="url"
+            placeholder="https://api.deepseek.com/v1"
+            placeholderTextColor={colors.muted}
+            style={styles.aiInput}
+          />
+          <Text style={styles.aiFieldLabel}>模型</Text>
+          <TextInput
+            value={aiSettings.model}
+            onChangeText={(model) => setAiSettings((value) => ({ ...value, model }))}
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="deepseek-chat"
+            placeholderTextColor={colors.muted}
+            style={styles.aiInput}
+          />
+          <Text style={styles.aiFieldLabel}>API Key</Text>
+          <TextInput
+            value={aiSettings.apiKey}
+            onChangeText={(apiKey) => setAiSettings((value) => ({ ...value, apiKey }))}
+            autoCapitalize="none"
+            autoCorrect={false}
+            secureTextEntry
+            placeholder="填写你的 API Key"
+            placeholderTextColor={colors.muted}
+            style={styles.aiInput}
+          />
+          <Text style={styles.aiSettingsHint}>默认按 DeepSeek 填写；也可换成任何支持 /chat/completions 的兼容接口。</Text>
+          <View style={styles.aiActionRow}>
+            <Pressable
+              disabled={aiSaving}
+              onPress={() => void saveAi()}
+              style={({ pressed }) => [styles.aiSaveButton, pressed && styles.pressed, aiSaving && styles.disabled]}
+            >
+              {aiSaving
+                ? <ActivityIndicator color={colors.white} size="small" />
+                : <Text style={styles.aiSaveText}>保存 AI 设置</Text>}
+            </Pressable>
+            <Pressable onPress={() => void clearAiCache()} style={({ pressed }) => [styles.aiClearButton, pressed && styles.pressed]}>
+              <Text style={styles.aiClearText}>清除释义缓存</Text>
+            </Pressable>
+          </View>
+          {aiMessage ? <Text style={styles.aiMessage}>{aiMessage}</Text> : null}
         </View>
 
         <Text style={styles.blockTitle}>学习记录</Text>
@@ -273,6 +365,16 @@ const styles = StyleSheet.create({
   targetValue: { color: colors.inkSoft, fontFamily: fonts.title, fontSize: 20, fontWeight: '800' },
   targetValueActive: { color: colors.vermilion },
   targetLabel: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, marginTop: 2 },
+  aiSettingsCard: { marginTop: 12, padding: 16, borderRadius: 16, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line },
+  aiFieldLabel: { color: colors.ink, fontFamily: fonts.body, fontSize: 13, fontWeight: '700', marginTop: 10 },
+  aiInput: { minHeight: 46, marginTop: 6, paddingHorizontal: 12, borderRadius: 11, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.paper, color: colors.ink, fontFamily: fonts.sans, fontSize: 13 },
+  aiSettingsHint: { color: colors.muted, fontFamily: fonts.body, fontSize: 11, lineHeight: 18, marginTop: 10 },
+  aiActionRow: { flexDirection: 'row', gap: 8, marginTop: 13 },
+  aiSaveButton: { flex: 1.2, minHeight: 46, borderRadius: 12, backgroundColor: colors.vermilion, alignItems: 'center', justifyContent: 'center' },
+  aiSaveText: { color: colors.white, fontFamily: fonts.body, fontSize: 14, fontWeight: '800' },
+  aiClearButton: { flex: 1, minHeight: 46, borderRadius: 12, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.paper },
+  aiClearText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, fontWeight: '700' },
+  aiMessage: { color: colors.jade, fontFamily: fonts.body, fontSize: 12, lineHeight: 20, marginTop: 10 },
   recordCard: { marginTop: 12, borderRadius: 16, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 16 },
   recordRow: { minHeight: 54, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
   recordLabel: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 14 },
@@ -308,4 +410,5 @@ const styles = StyleSheet.create({
   resetButton: { minHeight: 50, marginTop: 20, borderRadius: 14, borderWidth: 1, borderColor: '#D7B7B2', alignItems: 'center', justifyContent: 'center' },
   resetText: { color: colors.vermilion, fontFamily: fonts.body, fontSize: 14, fontWeight: '700' },
   pressed: { opacity: 0.7 },
+  disabled: { opacity: 0.5 },
 });

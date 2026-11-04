@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
   findCharacterContext,
   getCharacterReadings,
@@ -8,6 +8,12 @@ import {
   isHanCharacter,
 } from '../data/characterDictionary';
 import { LisaoUnit } from '../data/lisaoCurriculum';
+import {
+  AiContextOutcome,
+  hasAiCredentials,
+  interpretWithAi,
+  loadAiSettings,
+} from '../services/aiContext';
 import { colors, fonts, radius, shadow, spacing } from '../theme';
 
 interface Props {
@@ -18,12 +24,47 @@ interface Props {
 }
 
 export function CharacterInspector({ selection, unit, sectionTitle, onClose }: Props) {
-  const [activeText, setActiveText] = useState(selection);
+  const [termText, setTermText] = useState<string | null>(null);
   const [dictionaryExpanded, setDictionaryExpanded] = useState(false);
+  const [aiRun, setAiRun] = useState(0);
+  const [aiState, setAiState] = useState<
+    | { status: 'idle' | 'loading' | 'unconfigured' }
+    | { status: 'ready'; result: AiContextOutcome }
+    | { status: 'error'; message: string }
+  >({ status: 'idle' });
   useEffect(() => {
-    setActiveText(selection);
+    setTermText(null);
     setDictionaryExpanded(false);
   }, [selection]);
+  const activeText = termText ?? selection;
+  useEffect(() => {
+    let cancelled = false;
+    if (!activeText || !unit) {
+      setAiState({ status: 'idle' });
+      return undefined;
+    }
+    setAiState({ status: 'loading' });
+    void loadAiSettings()
+      .then(async (settings) => {
+        if (!hasAiCredentials(settings)) {
+          if (!cancelled) setAiState({ status: 'unconfigured' });
+          return;
+        }
+        const result = await interpretWithAi(settings, unit, activeText, sectionTitle);
+        if (!cancelled) setAiState({ status: 'ready', result });
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setAiState({
+            status: 'error',
+            message: error instanceof Error ? error.message : 'AI 判断失败。',
+          });
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeText, aiRun, sectionTitle, unit]);
 
   const isPhrase = Boolean(activeText && activeText.length > 1);
   const phraseCharacters = activeText ? [...activeText].filter(isHanCharacter) : [];
@@ -70,28 +111,37 @@ export function CharacterInspector({ selection, unit, sectionTitle, onClose }: P
               </View>
             </View>
 
-            {context ? (
-              <View style={styles.contextCard}>
-                <Text style={styles.contextLabel}>{isPhrase ? '本句中的词义' : '本句中的字义'}</Text>
-                <Text style={styles.contextWord}>
-                  {context.surface}
-                  {context.pinyin ? `　${context.pinyin}` : ''}
-                </Text>
-                <Text style={styles.contextMeaning}>{context.meaningInContext}</Text>
-                {context.grammar ? <Text style={styles.contextNote}>语法：{context.grammar}</Text> : null}
-                {context.notes?.map((note) => <Text key={note} style={styles.contextNote}>提示：{note}</Text>)}
-                {context.uncertainty ? <Text style={styles.contextUncertainty}>{context.uncertainty}</Text> : null}
-              </View>
-            ) : (
-              <View style={styles.noContextCard}>
-                <Text style={styles.noContextTitle}>{isPhrase ? '这个组合没有固定词条' : '结合本句理解'}</Text>
-                <Text style={styles.noContextText}>
-                  {isPhrase
-                    ? '下面按字拆开列出读音和常见义项。它们是理解这个词的材料，整词意思仍要结合本句译文和本章语境判断。'
-                    : '下面是这个汉字在古汉语字书中的通用义项。一个字往往有多个意思，这句里具体取哪一项，要结合原文和译文判断。'}
-                </Text>
-              </View>
-            )}
+            <AiContextPanel
+              state={aiState}
+              onRetry={() => setAiRun((value) => value + 1)}
+            />
+
+            {aiState.status !== 'ready' ? (
+              context ? (
+                <View style={styles.contextCard}>
+                  <Text style={styles.contextLabel}>
+                    {aiState.status === 'loading' ? '离线字义 · AI 判断中' : '离线字义参考'}
+                  </Text>
+                  <Text style={styles.contextWord}>
+                    {context.surface}
+                    {context.pinyin ? `　${context.pinyin}` : ''}
+                  </Text>
+                  <Text style={styles.contextMeaning}>{context.meaningInContext}</Text>
+                  {context.grammar ? <Text style={styles.contextNote}>语法：{context.grammar}</Text> : null}
+                  {context.notes?.map((note) => <Text key={note} style={styles.contextNote}>提示：{note}</Text>)}
+                  {context.uncertainty ? <Text style={styles.contextUncertainty}>{context.uncertainty}</Text> : null}
+                </View>
+              ) : (
+                <View style={styles.noContextCard}>
+                  <Text style={styles.noContextTitle}>{isPhrase ? '这个组合没有固定词条' : '结合本句理解'}</Text>
+                  <Text style={styles.noContextText}>
+                    {isPhrase
+                      ? '下面按字拆开列出读音和常见义项。它们是理解这个词的材料，整词意思仍要结合本句译文和本章语境判断。'
+                      : '下面是这个汉字在古汉语字书中的通用义项。一个字往往有多个意思，这句里具体取哪一项，要结合原文和译文判断。'}
+                  </Text>
+                </View>
+              )
+            ) : null}
 
             {unitsTranslation(unit)}
 
@@ -103,7 +153,7 @@ export function CharacterInspector({ selection, unit, sectionTitle, onClose }: P
                   {glossary.map((term) => (
                     <Pressable
                       key={term.surface}
-                      onPress={() => setActiveText(term.surface)}
+                      onPress={() => setTermText(term.surface)}
                       style={[styles.termButton, activeText === term.surface && styles.termButtonActive]}
                     >
                       <Text style={[styles.termButtonText, activeText === term.surface && styles.termButtonTextActive]}>
@@ -189,6 +239,70 @@ export function CharacterInspector({ selection, unit, sectionTitle, onClose }: P
   );
 }
 
+function AiContextPanel({
+  state,
+  onRetry,
+}: {
+  state:
+    | { status: 'idle' | 'loading' | 'unconfigured' }
+    | { status: 'ready'; result: AiContextOutcome }
+    | { status: 'error'; message: string };
+  onRetry: () => void;
+}) {
+  if (state.status === 'idle') return null;
+  if (state.status === 'loading') {
+    return (
+      <View style={styles.aiCard}>
+        <View style={styles.aiTitleRow}>
+          <ActivityIndicator color={colors.jade} size="small" />
+          <Text style={styles.aiLabel}>AI 正在按本句判断</Text>
+        </View>
+        <Text style={styles.aiHint}>会结合原句、译文和章节，只解释所选字词在这里的意思。</Text>
+      </View>
+    );
+  }
+  if (state.status === 'unconfigured') {
+    return (
+      <View style={styles.aiNoticeCard}>
+        <Text style={styles.aiNoticeTitle}>AI 本句判断尚未配置</Text>
+        <Text style={styles.aiNoticeText}>到“我的 → AI 本句释义”填写 API Key 后，点任意字或任选两个及以上连续字都会自动调用。</Text>
+      </View>
+    );
+  }
+  if (state.status === 'error') {
+    return (
+      <View style={styles.aiErrorCard}>
+        <Text style={styles.aiErrorTitle}>AI 判断失败，先显示离线字义</Text>
+        <Text style={styles.aiErrorText}>{state.message}</Text>
+        <Pressable onPress={onRetry} style={styles.aiRetryButton}>
+          <Text style={styles.aiRetryText}>重新判断</Text>
+        </Pressable>
+      </View>
+    );
+  }
+  if (state.status !== 'ready') return null;
+  const { result } = state;
+  return (
+    <View style={styles.aiCard}>
+      <View style={styles.aiTitleRow}>
+        <Text style={styles.aiLabel}>AI 判断 · 本句取义</Text>
+        <Text style={styles.aiConfidence}>
+          {result.confidence === 'high' ? '把握较高' : result.confidence === 'low' ? '需核对注本' : '可以参考'}
+          {result.cached ? ' · 已缓存' : ''}
+        </Text>
+      </View>
+      <Text style={styles.aiSurface}>
+        {result.surface}
+        {result.pronunciation ? `　${result.pronunciation}` : ''}
+      </Text>
+      <Text style={styles.aiMeaning}>{result.meaning}</Text>
+      {result.grammar ? <Text style={styles.aiMeta}>语法：{result.grammar}</Text> : null}
+      {result.explanation ? <Text style={styles.aiMeta}>依据：{result.explanation}</Text> : null}
+      <Text style={styles.aiFootnote}>这是按当前原句生成的取义；展开下方字典只用于核对，不代表本句仍取通用义。</Text>
+    </View>
+  );
+}
+
 function unitsTranslation(unit: LisaoUnit | null) {
   if (!unit) return null;
   return (
@@ -231,6 +345,23 @@ const styles = StyleSheet.create({
   eyebrow: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1 },
   pinyin: { color: colors.ink, fontFamily: fonts.body, fontSize: 24, fontWeight: '800', marginTop: 5 },
   sentence: { color: colors.inkSoft, fontFamily: fonts.title, fontSize: 14, lineHeight: 23, marginTop: 7 },
+  aiCard: { marginTop: 18, padding: 16, borderRadius: 16, backgroundColor: colors.jadeSoft, borderWidth: 1, borderColor: '#C9DAD0', borderLeftWidth: 4, borderLeftColor: colors.jade },
+  aiTitleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
+  aiLabel: { color: colors.jade, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1, fontWeight: '700' },
+  aiConfidence: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9 },
+  aiHint: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, lineHeight: 22, marginTop: 8 },
+  aiSurface: { color: colors.ink, fontFamily: fonts.title, fontSize: 20, fontWeight: '800', marginTop: 8 },
+  aiMeaning: { color: colors.ink, fontFamily: fonts.body, fontSize: 17, lineHeight: 28, fontWeight: '600', marginTop: 7 },
+  aiMeta: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, lineHeight: 22, marginTop: 7 },
+  aiFootnote: { color: colors.muted, fontFamily: fonts.body, fontSize: 11, lineHeight: 19, marginTop: 9 },
+  aiNoticeCard: { marginTop: 18, padding: 15, borderRadius: 15, backgroundColor: '#F7EBDD', borderLeftWidth: 4, borderLeftColor: colors.gold },
+  aiNoticeTitle: { color: colors.gold, fontFamily: fonts.body, fontSize: 14, fontWeight: '800' },
+  aiNoticeText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, lineHeight: 22, marginTop: 6 },
+  aiErrorCard: { marginTop: 18, padding: 15, borderRadius: 15, backgroundColor: colors.vermilionSoft, borderLeftWidth: 4, borderLeftColor: colors.vermilion },
+  aiErrorTitle: { color: colors.vermilion, fontFamily: fonts.body, fontSize: 14, fontWeight: '800' },
+  aiErrorText: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 12, lineHeight: 20, marginTop: 6 },
+  aiRetryButton: { alignSelf: 'flex-start', minHeight: 34, marginTop: 10, paddingHorizontal: 14, borderRadius: 10, backgroundColor: colors.vermilion, alignItems: 'center', justifyContent: 'center' },
+  aiRetryText: { color: colors.white, fontFamily: fonts.body, fontSize: 12, fontWeight: '800' },
   contextCard: { marginTop: 18, padding: 16, borderRadius: 16, backgroundColor: colors.jadeSoft, borderLeftWidth: 4, borderLeftColor: colors.jade },
   contextLabel: { color: colors.jade, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1 },
   contextWord: { color: colors.ink, fontFamily: fonts.title, fontSize: 19, fontWeight: '800', marginTop: 7 },
