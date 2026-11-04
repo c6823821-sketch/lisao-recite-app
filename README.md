@@ -5,7 +5,8 @@
 ## 下载
 
 - [GitHub Releases](https://github.com/c6823821-sketch/lisao-recite-app/releases/latest)
-- 当前安装包构建完成后会更新为 `1.0.5`。
+- 大小：26,696,066 字节
+- SHA256：`5F697518CE0F9E37FBBDB5BACF057347E501247C5DA641E27C2666F030C8A6C3`
 
 ![离骚背诵 APK 下载二维码](docs/qr.png)
 
